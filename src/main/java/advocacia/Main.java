@@ -8,6 +8,7 @@ public class Main {
 
         System.out.println("Bem vindo");
         System.out.println("Teste geral do GIT");
+        System.out.println("git merge caraioo");
 
     }
 }
