@@ -7,6 +7,7 @@ public class Main {
         Connect.getInstance();
 
         System.out.println("Bem vindo");
+        System.out.println("Teste geral do GIT");
 
     }
 }
