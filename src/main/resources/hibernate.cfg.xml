@@ -12,7 +12,7 @@
         <mapping class="program.models.UsuariosEntity"/>
         <mapping class="program.models.AgendamentoEntity"/>
         <mapping class="program.models.DocumentosEntity"/>
-        <mapping class="program.models.NotaEntity"/>
+        <mapping class="program.models.AnotacaoEntity"/>
         <mapping class="program.models.DisponibilidadeEntity"/>
     </session-factory>
 </hibernate-configuration>
