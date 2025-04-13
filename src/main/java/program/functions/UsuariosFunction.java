@@ -3,7 +3,9 @@ package program.functions;
 import program.models.AnotacaoEntity;
 import program.models.UsuariosEntity;
 import program.repositories.AnotacaoRepository;
+import program.repositories.IAnotacaoRepository;
 import program.repositories.UsuariosRepository;
+import program.repositories.IUsuariosRepository;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,8 +13,8 @@ import java.util.Scanner;
 public class UsuariosFunction {
 
     public static void main(String[] args) {
-        UsuariosRepository usuariosRepo = new UsuariosRepository();
-        AnotacaoRepository anotacaoRepo = new AnotacaoRepository();
+        IUsuariosRepository usuariosRepo = new UsuariosRepository();
+        IAnotacaoRepository anotacaoRepo = new AnotacaoRepository();
         Scanner sc = new Scanner(System.in);
         int opcao = -1;
 
@@ -51,7 +53,7 @@ public class UsuariosFunction {
                         System.out.println("Nenhuma nota encontrada.");
                     } else {
                         notas.forEach(n -> {
-                            System.out.println("ID: " + n.getId() + " | Conteúdo: " + n.getNota() + " | Criado em: " + n.getDataCriacao());
+                            System.out.println("ID da nota: " + n.getId() + " | Conteúdo: " + n.getNota() + " | Criado em: " + n.getDataCriacao());
                         });
                     }
                     break;
@@ -66,3 +68,4 @@ public class UsuariosFunction {
         sc.close();
     }
 }
+

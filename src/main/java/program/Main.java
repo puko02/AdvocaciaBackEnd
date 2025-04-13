@@ -11,6 +11,13 @@ public class Main {
         em.getTransaction().begin();
         UsuariosEntity cliente = new UsuariosEntity();
 
+        cliente.setNome("Alexandro ");
+        cliente.setTelefone("45999729416");
+        cliente.setEmail("contato2@gmail.com");
+        cliente.setSenha("506649");
+        cliente.setAdmin(true);
+
+        em.persist(cliente); // Persiste o objeto no banco de dados
         em.getTransaction().commit();
         em.close();
     }

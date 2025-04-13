@@ -9,11 +9,11 @@ import program.models.UsuariosEntity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class AnotacaoRepository {
+public class AnotacaoRepository implements IAnotacaoRepository {
 
+    @Override
     public void adicionarNota(AnotacaoEntity anotacao) {
         Transaction transaction = null;
-
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(anotacao);
@@ -24,9 +24,9 @@ public class AnotacaoRepository {
         }
     }
 
+    @Override
     public void adicionarAnotacao(Long idCliente, String conteudo) {
         Transaction transaction = null;
-
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
@@ -48,9 +48,9 @@ public class AnotacaoRepository {
         }
     }
 
+    @Override
     public List<AnotacaoEntity> buscarAnotacoesPorCliente(Long idCliente) {
         List<AnotacaoEntity> anotacoes = null;
-
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             anotacoes = session.createQuery(
                             "FROM AnotacaoEntity a WHERE a.cliente.id = :idCliente", AnotacaoEntity.class)
@@ -59,7 +59,6 @@ public class AnotacaoRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return anotacoes;
     }
 }

@@ -14,7 +14,7 @@ public class DisponibilidadeFunction {
         DisponibilidadeRepository disponibilidadeRepo = new DisponibilidadeRepository();
 
         System.out.println("Qual dia da semana deseja editar?");
-        System.out.print(" 1 - Sábado\n 2 - Segunda-feira\n 3 - Terça-feira\n 4 - Quarta-feira\n 5 - Quinta-feira\n 6 - Sexta-feira\n 7 - Domingo\n  -> ");
+        System.out.print(" 1 - Domingo\n 2 - Segunda-feira\n 3 - Terça-feira\n 4 - Quarta-feira\n 5 - Quinta-feira\n 6 - Sexta-feira\n 7 - Sábado\n  -> ");
         int diaSelect = sc.nextInt();
         sc.nextLine();
 
@@ -61,13 +61,13 @@ public class DisponibilidadeFunction {
 
     public static String getDiaSemana(int diaSelect) {
         switch (diaSelect) {
-            case 1: return "sabado";
+            case 1: return "domingo";
             case 2: return "segunda";
             case 3: return "terça";
             case 4: return "quarta";
             case 5: return "quinta";
             case 6: return "sexta";
-            case 7: return "domingo";
+            case 7: return "sabado";
             default: return null;
         }
     }
