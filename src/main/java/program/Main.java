@@ -22,11 +22,6 @@ public class Main {
         cliente.setSenha("506649");
         cliente.setAdmin(true);
 
-        agendamento1.setCliente(cliente);
-        agendamento1.setDescricao("Teste de agendamento...");
-        agendamento1.setDataHora(LocalDateTime.of(2025, 04, 28, 14, 33));
-        agendamento1.setStatus("Marcado");
-
         em.persist(cliente); // Persiste o objeto no banco de dados
         em.getTransaction().commit();
         em.close();
