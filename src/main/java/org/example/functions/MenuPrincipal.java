@@ -21,9 +21,9 @@ public class MenuPrincipal {
             sc.nextLine(); //limpa
 
             switch (option) {
-                case 1 -> System.out.println("Login ADM (placeholder)");
+                case 1 -> MenuLoginFunction.Menulogin(em,sc);
                 case 2 -> Agendamento.fazerAgendamento(em);
-                case 3 -> System.out.println("Sua consulta (placeholder)");
+                case 3 -> MenuConsultasFunction.MenuConsultas(em,sc);
                 case 0 -> {
                     System.out.println("Saindo...");
                     exit = true;

@@ -1,9 +1,10 @@
-package program.functions;
+package org.example.functions;
 
+import javax.persistence.EntityManager;
 import java.util.Scanner;
 
 public class MenuConsultasFunction {
-    public static void MenuConsultas(Scanner sc){
+    public static void MenuConsultas(EntityManager em, Scanner sc){
         System.out.println("Menu de Consultas\nDigite o seu e-mail:");
         String email = sc.nextLine();
         System.out.println(email);

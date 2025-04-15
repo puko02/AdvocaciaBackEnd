@@ -1,9 +1,10 @@
-package program.functions;
+package org.example.functions;
 
+import javax.persistence.EntityManager;
 import java.util.Scanner;
 
 public class MenuLoginFunction {
-    public static void Menulogin(Scanner sc) {
+    public static void Menulogin(EntityManager em, Scanner sc) {
         System.out.println("Menu Login\nDigite o e-mail: ");
         String email = sc.nextLine();
         System.out.println("Digite a senha: ");
