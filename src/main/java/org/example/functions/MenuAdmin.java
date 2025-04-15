@@ -18,10 +18,10 @@ public class MenuAdmin {
 
             switch(selected){
                 case 1:
-                    UsuariosFunction.menuUser();
+                    DisponibilidadeFunction.menuDisponibilidade();
                     break;
                 case 2:
-                    DisponibilidadeFunction.menuDisponibilidade();
+                    UsuariosFunction.menuUser();
                     break;
                 case 3:
 

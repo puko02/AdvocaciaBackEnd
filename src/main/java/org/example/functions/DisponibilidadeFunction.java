@@ -64,12 +64,12 @@ public class DisponibilidadeFunction {
     public static String getDiaSemana(int diaSelect) {
         switch (diaSelect) {
             case 1: return "domingo";
-            case 2: return "segunda";
-            case 3: return "terça";
-            case 4: return "quarta";
-            case 5: return "quinta";
-            case 6: return "sexta";
-            case 7: return "sabado";
+            case 2: return "segunda-feira";
+            case 3: return "terça-feira";
+            case 4: return "quarta-feira";
+            case 5: return "quinta-feira";
+            case 6: return "sexta-feira";
+            case 7: return "sábado";
             default: return null;
         }
     }
