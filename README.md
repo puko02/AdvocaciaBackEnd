@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 # AdvocaciaBackEnd
-=======
 📑 Sistema de Advocacia
 
 📌 Sobre o Projeto
@@ -141,4 +139,3 @@ Nome	Função
 📌 Observação
 
 O projeto foi desenvolvido como prática acadêmica para reforçar conceitos de Orientação a Objetos, JPA/Hibernate, e modelagem relacional, com funcionalidades essenciais para gestão de consultórios jurídicos.
->>>>>>> test
