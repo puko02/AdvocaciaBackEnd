@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class UsuariosFunction {
 
-    public static void main(String[] args) {
+    public static void menuUser() {
         IUsuariosRepository usuariosRepo = new UsuariosRepository();
         IAnotacaoRepository anotacaoRepo = new AnotacaoRepository();
         Scanner sc = new Scanner(System.in);
@@ -59,7 +59,7 @@ public class UsuariosFunction {
                     break;
                 case 0:
                     System.out.println("Saindo...");
-                    break;
+                    return;
                 default:
                     System.out.println("Opção inválida.");
             }

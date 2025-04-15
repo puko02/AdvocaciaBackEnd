@@ -1,7 +1,9 @@
 package org.example.functions;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.Scanner;
+import org.example.models.UsuariosEntity;
 
 public class MenuLoginFunction {
     public static void Menulogin(EntityManager em, Scanner sc) {
@@ -10,11 +12,25 @@ public class MenuLoginFunction {
         System.out.println("Digite a senha: ");
         String senha = sc.nextLine();
 
-        //Faz a busca na tabela de LoginADM
-        //Verifica se o valor que foi inputado no sistema é o mesmo que está salvo no banco de dados
-        //Faz a mesmsa verificação com a senha
-        //Se ambos forem true, prosseguir para menu do Advogado, se não, retornar para o menu principal
+        String prefixo = "SELECT u FROM UsuariosEntity u WHERE u.email = :email";
+        TypedQuery<UsuariosEntity> query = em.createQuery(prefixo, UsuariosEntity.class);
+        query.setParameter("email", email);
 
-        System.out.println("Acesso permitido\nMenu do Advogado:\n");
+        UsuariosEntity usuario = null;
+        try {
+            usuario = query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("E-mail não encontrado. Pressione ENTER para retornar ao menu principal.");
+            sc.next();
+            return;
+        }
+
+        if (usuario.getSenha().equals(senha)) {
+            System.out.println("Acesso permitido!\n\n");
+            MenuAdmin.menuAdministrador();
+        } else {
+            System.out.println("Senha incorreta. Pressione ENTER para retornar ao menu principal.");
+            sc.next();
+        }
     }
 }
