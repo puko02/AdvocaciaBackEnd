@@ -8,7 +8,7 @@ public class MenuAdmin {
         Scanner sc = new Scanner(System.in);
 
         while(opc != 0) {
-            System.out.println("Bem vindo ao menu de Administrador\n Escolha sua função");
+            System.out.println("Bem vindo ao menu de Administrador\n");
             System.out.println("1 - Editar horário de atendimento do dia da semana");
             System.out.println("2 - Adicionar ou verificar notas de clientes");
             System.out.println("3 - Verificar agendamentos");
@@ -24,7 +24,7 @@ public class MenuAdmin {
                     UsuariosFunction.menuUser();
                     break;
                 case 3:
-
+                    program.functions.VisualizarAgendamentosFunction.menuVizuAgendamento();
                     break;
                 case 0:
                     System.out.println("Retornando...");
