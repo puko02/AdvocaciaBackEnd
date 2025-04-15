@@ -17,6 +17,7 @@ public class AgendamentoEntity {
     @JoinColumn(name = "id_cliente")
     private UsuariosEntity cliente;
 
+    @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
     @Column(nullable = false)
