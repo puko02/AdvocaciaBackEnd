@@ -13,6 +13,8 @@ import java.util.Scanner;
 public class Agendamento {
 
     public static void fazerAgendamento(EntityManager em) {
+
+
         Scanner sc = new Scanner(System.in);
         org.example.services.AgendamentoService agendamentoService = new org.example.services.AgendamentoService(em);
         org.example.services.DisponibilidadeService disponibilidadeService = new org.example.services.DisponibilidadeService(em);
