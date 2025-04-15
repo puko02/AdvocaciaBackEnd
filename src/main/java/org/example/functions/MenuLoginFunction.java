@@ -1,5 +1,3 @@
-package org.example.functions;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Scanner;
@@ -27,6 +25,7 @@ public class MenuLoginFunction {
 
         if (usuario.getSenha().equals(senha)) {
             System.out.println("Acesso permitido\nMenu do Advogado:\n");
+            MenuAdmin.menuAdministrador(); // Adicionando funcionalidade da outra branch
         } else {
             System.out.println("Senha incorreta. Pressione ENTER para retornar ao menu principal.");
             sc.next();
