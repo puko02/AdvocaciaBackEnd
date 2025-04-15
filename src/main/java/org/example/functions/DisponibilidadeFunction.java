@@ -8,16 +8,19 @@ import java.util.Scanner;
 
 public class DisponibilidadeFunction {
 
-    public static void main(String[] args){
+    public static void menuDisponibilidade(){
         Scanner sc = new Scanner(System.in);
         DisponibilidadeRepository disponibilidadeRepo = new DisponibilidadeRepository();
 
         System.out.println("Qual dia da semana deseja editar?");
-        System.out.print(" 1 - Domingo\n 2 - Segunda-feira\n 3 - Terça-feira\n 4 - Quarta-feira\n 5 - Quinta-feira\n 6 - Sexta-feira\n 7 - Sábado\n  -> ");
+        System.out.print(" 1 - Domingo\n 2 - Segunda-feira\n 3 - Terça-feira\n 4 - Quarta-feira\n 5 - Quinta-feira\n 6 - Sexta-feira\n 7 - Sábado\n  0 - Voltar ao menu do administrador\n -> ");
         int diaSelect = sc.nextInt();
         sc.nextLine();
 
         String diaSemana = getDiaSemana(diaSelect);
+        if (diaSelect == 0){
+            return;
+        }
 
         if (diaSemana != null) {
             List<DisponibilidadeEntity> disponiveis = disponibilidadeRepo.diaDisponivel(diaSemana);

@@ -1,6 +1,7 @@
 package org.example.functions;
 
 import javax.persistence.EntityManager;
+import java.awt.*;
 import java.util.Scanner;
 
 public class MenuLoginFunction {
@@ -16,5 +17,6 @@ public class MenuLoginFunction {
         //Se ambos forem true, prosseguir para menu do Advogado, se não, retornar para o menu principal
 
         System.out.println("Acesso permitido\nMenu do Advogado:\n");
+        MenuAdmin.menuAdministrador();
     }
 }
