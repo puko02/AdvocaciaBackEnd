@@ -1,18 +1,18 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/advocacia</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/postgres</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">postgres</property>
+        <property name="hibernate.connection.password">senha</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">none</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
-        <mapping class="program.models.UsuariosEntity"/>
-        <mapping class="program.models.AgendamentoEntity"/>
-        <mapping class="program.models.DocumentosEntity"/>
-        <mapping class="program.models.AnotacaoEntity"/>
-        <mapping class="program.models.DisponibilidadeEntity"/>
+        <mapping class="org.example.models.UsuariosEntity"/>
+        <mapping class="org.example.models.AgendamentoEntity"/>
+        <mapping class="org.example.models.DocumentosEntity"/>
+        <mapping class="org.example.models.AnotacaoEntity"/>
+        <mapping class="org.example.models.DisponibilidadeEntity"/>
     </session-factory>
 </hibernate-configuration>
