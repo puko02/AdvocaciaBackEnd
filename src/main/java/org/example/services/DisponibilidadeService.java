@@ -15,7 +15,11 @@ public class DisponibilidadeService {
 
     public Optional<DisponibilidadeEntity> buscarPorDiaSemana(String diaSemana) {
         TypedQuery<DisponibilidadeEntity> query = em.createQuery(
+
                 "SELECT d FROM DisponibilidadeEntity d WHERE LOWER(d.diaSemana) = :dia", DisponibilidadeEntity.class);
+        //          SELECT * FROM disponibilidade
+        //          WHERE LOWER(dia_semana) = 'segunda';
+
         query.setParameter("dia", diaSemana.toLowerCase());
         return query.getResultStream().findFirst();
     }

@@ -12,8 +12,18 @@ public class AgendamentoService {
     }
 
     public void salvarAgendamento(AgendamentoEntity agendamento) {
-        em.getTransaction().begin();
-        em.persist(agendamento);
-        em.getTransaction().commit();
+        try {
+            if (!em.getTransaction().isActive()) {
+                em.getTransaction().begin();
+            }
+
+            em.persist(agendamento);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;
+        }
     }
 }
