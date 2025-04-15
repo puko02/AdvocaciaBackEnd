@@ -90,7 +90,7 @@ public class VisualizarAgendamentosFunction {
 
                         // Atualizar no banco
                         agendamentoRepo.atualizarAgendamento(idEdit, dataHora, status, descricao);
-                        System.out.println("Disponibilidade atualizada com sucesso!");
+                        System.out.println("Agendamento atualizado com sucesso!");
                     break;
                 case 3:
                     sair = true;
