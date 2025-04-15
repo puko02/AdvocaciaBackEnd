@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class VisualizarAgendamentosFunction {
 
-    public static void main(String[] args) {
+    public static void menuVizuAgendamento() {
         Scanner sc = new Scanner(System.in);
         //AgendamentoRepository agendamentoRepo = new AgendamentoRepository();
 
