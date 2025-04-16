@@ -1,4 +1,4 @@
-package program.functions;
+package org.example.functions;
 import org.example.models.AgendamentoEntity;
 import org.example.models.UsuariosEntity;
 import org.example.repositories.*;

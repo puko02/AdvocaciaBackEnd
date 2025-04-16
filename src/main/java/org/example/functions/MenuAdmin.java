@@ -24,7 +24,7 @@ public class MenuAdmin {
                     UsuariosFunction.menuUser();
                     break;
                 case 3:
-                    program.functions.VisualizarAgendamentosFunction.menuVizuAgendamento();
+                    VisualizarAgendamentosFunction.menuVizuAgendamento();
                     break;
                 case 0:
                     System.out.println("Retornando...");
