@@ -43,8 +43,6 @@ public class DisponibilidadeRepository {
                 tx.rollback();
             }
             e.printStackTrace();
-        } finally {
-            em.close();
         }
     }
 }

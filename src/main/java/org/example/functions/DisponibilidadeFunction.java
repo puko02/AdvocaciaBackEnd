@@ -25,13 +25,13 @@ public class DisponibilidadeFunction {
         if (diaSemana != null) {
             List<DisponibilidadeEntity> disponiveis = disponibilidadeRepo.diaDisponivel(diaSemana);
 
-            if (disponiveis.isEmpty()) {
+            if (disponiveis.isEmpty() || disponiveis == null) {
                 System.out.println("Nenhuma disponibilidade cadastrada para " + diaSemana);
             } else {
-                System.out.println("Disponibilidades de " + diaSemana + ":");
+                System.out.println("\n\tDisponibilidades de " + diaSemana + ":\n");
                 for (DisponibilidadeEntity disp : disponiveis) {
-                    System.out.println("ID: " + disp.getId() + " | Início: " + disp.getHoraInicio() + " | Fim: " + disp.getHoraFim() +
-                            " | Dia todo: " + disp.isDiaTodo() + " | Bloqueado: " + disp.isBloqueado());
+                    System.out.println("ID: " + disp.getId() + "\nInício: " + disp.getHoraInicio() + "\nFim: " + disp.getHoraFim() +
+                            "\nDia todo: " + disp.isDiaTodo() + "\nBloqueado: " + disp.isBloqueado());
                 }
 
                 System.out.println("Digite o ID da disponibilidade que deseja editar:");
@@ -57,8 +57,6 @@ public class DisponibilidadeFunction {
         } else {
             System.out.println("Opção inválida.");
         }
-
-        sc.close();
     }
 
     public static String getDiaSemana(int diaSelect) {
