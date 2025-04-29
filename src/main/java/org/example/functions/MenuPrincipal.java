@@ -11,9 +11,9 @@ public class MenuPrincipal {
 
         do {
             System.out.println("\nMENU PRINCIPAL");
-            System.out.println("1 - LOGIN ADM");
-            System.out.println("2 - AGENDAMENTO");
-            System.out.println("3 - SUA CONSULTA");
+            System.out.println("1 - FAZER LOGIN ADM");
+            System.out.println("2 - FAZER AGENDAMENTO");
+            System.out.println("3 - VER SUA CONSULTA");
             System.out.println("0 - SAIR");
 
             System.out.print("--> ");

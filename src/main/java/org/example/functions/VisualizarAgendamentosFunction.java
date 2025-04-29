@@ -1,4 +1,4 @@
-package program.functions;
+package org.example.functions;
 import org.example.models.AgendamentoEntity;
 import org.example.models.UsuariosEntity;
 import org.example.repositories.*;
@@ -57,8 +57,8 @@ public class VisualizarAgendamentosFunction {
 
                         }
 
-                    } finally {
-                        em.close();
+                    }catch (Exception e) {
+                        System.out.println("error " + e);
                     }
                     break;
                 case 2:
@@ -100,7 +100,5 @@ public class VisualizarAgendamentosFunction {
                     System.out.println("Opcao Invalida. Por favor escolha uma opcao valida e tente novamente.");
             }
         }
-
-        sc.close();
     }
 }

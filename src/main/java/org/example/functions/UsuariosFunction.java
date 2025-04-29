@@ -53,7 +53,7 @@ public class UsuariosFunction {
                         System.out.println("Nenhuma nota encontrada.");
                     } else {
                         notas.forEach(n -> {
-                            System.out.println("ID da nota: " + n.getId() + " | Conteúdo: " + n.getNota() + " | Criado em: " + n.getDataCriacao());
+                            System.out.println("\nID da nota: " + n.getId() + "\nConteúdo: " + n.getNota() + "\nCriado em: " + n.getDataCriacao());
                         });
                     }
                     break;

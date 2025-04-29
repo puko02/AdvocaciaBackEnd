@@ -18,13 +18,13 @@ public class MenuAdmin {
 
             switch(selected){
                 case 1:
-                    UsuariosFunction.menuUser();
-                    break;
-                case 2:
                     DisponibilidadeFunction.menuDisponibilidade();
                     break;
+                case 2:
+                    UsuariosFunction.menuUser();
+                    break;
                 case 3:
-                    program.functions.VisualizarAgendamentosFunction.menuVizuAgendamento();
+                    VisualizarAgendamentosFunction.menuVizuAgendamento();
                     break;
                 case 0:
                     System.out.println("Retornando...");
