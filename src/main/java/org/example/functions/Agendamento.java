@@ -44,14 +44,12 @@ public class Agendamento {
             return;
         }
 
-        // Dia da semana
         DayOfWeek diaSemanaEnum = dataHora.getDayOfWeek();
         String diaSemana = diaSemanaEnum.getDisplayName(TextStyle.FULL, new Locale("pt", "BR")).toLowerCase();
 
-        // Verificar disponibilidade
         Optional<DisponibilidadeEntity> opt = disponibilidadeService.buscarPorDiaSemana(diaSemana);
 
-        if (opt.isEmpty()) {
+        if (!opt.isPresent()) {
             System.out.println("Não há disponibilidade cadastrada para " + diaSemana);
             return;
         }
@@ -72,8 +70,24 @@ public class Agendamento {
             }
         }
 
-        // Agendar
-        AgendamentoEntity agendamento = new AgendamentoEntity(nome, telefone, email, dataHora);
+        // Criar e persistir usuário
+        UsuariosEntity novoUsuario = new UsuariosEntity();
+        novoUsuario.setNome(nome);
+        novoUsuario.setTelefone(telefone);
+        novoUsuario.setEmail(email);
+        novoUsuario.setSenha(""); // ou uma senha padrão se quiser evitar null
+        novoUsuario.setAdmin(false);
+
+        em.getTransaction().begin();
+        em.persist(novoUsuario);
+        em.getTransaction().commit();
+
+        // Criar agendamento corretamente
+        AgendamentoEntity agendamento = new AgendamentoEntity();
+        agendamento.setCliente(novoUsuario);
+        agendamento.setDataHora(dataHora);
+        agendamento.setStatus("agendado");
+
         agendamentoService.salvarAgendamento(agendamento);
 
         System.out.println("\nAgendamento salvo com sucesso!");
@@ -83,4 +97,5 @@ public class Agendamento {
         System.out.println("Email: " + email);
         System.out.println("Data: " + dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm")));
     }
+
 }
