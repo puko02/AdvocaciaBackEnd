@@ -1,4 +1,5 @@
 package org.example.models;
+
 import javax.persistence.*;
 
 @Entity

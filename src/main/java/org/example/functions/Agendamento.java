@@ -1,21 +1,23 @@
 package org.example.functions;
 
 import org.example.models.*;
+import org.example.services.*;
 
 import javax.persistence.EntityManager;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.*;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Agendamento {
 
     public static void fazerAgendamento(EntityManager em) {
         Scanner sc = new Scanner(System.in);
-        org.example.services.AgendamentoService agendamentoService = new org.example.services.AgendamentoService(em);
-        org.example.services.DisponibilidadeService disponibilidadeService = new org.example.services.DisponibilidadeService(em);
+        AgendamentoService agendamentoService = new AgendamentoService(em);
+        DisponibilidadeService disponibilidadeService = new DisponibilidadeService(em);
+        UsuarioService usuarioService = new UsuarioService(em);
 
         System.out.println("\n--- AGENDAMENTO ---");
 
@@ -70,21 +72,29 @@ public class Agendamento {
             }
         }
 
-        // Criar e persistir usuário
-        UsuariosEntity novoUsuario = new UsuariosEntity();
-        novoUsuario.setNome(nome);
-        novoUsuario.setTelefone(telefone);
-        novoUsuario.setEmail(email);
-        novoUsuario.setSenha(""); // ou uma senha padrão se quiser evitar null
-        novoUsuario.setAdmin(false);
+        UsuariosEntity usuario;
+        Optional<UsuariosEntity> existente = usuarioService.buscarPorEmail(email);
 
-        em.getTransaction().begin();
-        em.persist(novoUsuario);
-        em.getTransaction().commit();
+        if (existente.isPresent()) {
+            usuario = existente.get();
+            System.out.println("Usuário já cadastrado, reutilizando cadastro existente.");
+        } else {
+            usuario = new UsuariosEntity();
+            usuario.setNome(nome);
+            usuario.setTelefone(telefone);
+            usuario.setEmail(email);
+            usuario.setSenha("");
+            usuario.setAdmin(false);
 
-        // Criar agendamento corretamente
+            em.getTransaction().begin();
+            em.persist(usuario);
+            em.getTransaction().commit();
+
+            System.out.println("Novo usuário cadastrado.");
+        }
+
         AgendamentoEntity agendamento = new AgendamentoEntity();
-        agendamento.setCliente(novoUsuario);
+        agendamento.setCliente(usuario);
         agendamento.setDataHora(dataHora);
         agendamento.setStatus("agendado");
 
@@ -92,10 +102,9 @@ public class Agendamento {
 
         System.out.println("\nAgendamento salvo com sucesso!");
         System.out.println("Resumo:");
-        System.out.println("Nome: " + nome);
-        System.out.println("Telefone: " + telefone);
-        System.out.println("Email: " + email);
+        System.out.println("Nome: " + usuario.getNome());
+        System.out.println("Telefone: " + usuario.getTelefone());
+        System.out.println("Email: " + usuario.getEmail());
         System.out.println("Data: " + dataHora.format(DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm")));
     }
-
 }
