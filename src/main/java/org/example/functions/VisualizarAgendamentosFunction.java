@@ -25,7 +25,8 @@ public class VisualizarAgendamentosFunction {
             System.out.println("\n========== Agendamentos ==========");
             System.out.println("1. Ver todos os Agendamentos");
             System.out.println("2. Alterar Agendamento");
-            System.out.println("3. Sair");
+            System.out.println("3. Visualizar próximo agendamento");
+            System.out.println("4. Sair");
             System.out.print("Escolha sua opcao: ");
             int opc = sc.nextInt();
             sc.nextLine();
@@ -92,10 +93,26 @@ public class VisualizarAgendamentosFunction {
                         agendamentoRepo.atualizarAgendamento(idEdit, dataHora, status, descricao);
                         System.out.println("Agendamento atualizado com sucesso!");
                     break;
-                case 3:
+                case 4:
                     sair = true;
                     System.out.println("Saindo do menu...");
                     break;
+                case 3:
+                    AgendamentoEntity proximo = agendamentoRepo.buscarProximoAgendamento();
+
+                    if (proximo == null) {
+                        System.out.println("Não há próximos agendamentos.");
+                    } else {
+                        System.out.println("\n------ Próximo Agendamento ------");
+                        System.out.println("ID: " + proximo.getId());
+                        System.out.println("Data/Hora: " + proximo.getDataHora());
+                        System.out.println("Status do Agendamento: " + proximo.getStatus());
+                        System.out.println("Descrição: " + proximo.getDescricao());
+                        System.out.println("Documentos: " + proximo.getDocumentos());
+                        System.out.println("----------------------------------");
+                    }
+                    break;
+
                 default:
                     System.out.println("Opcao Invalida. Por favor escolha uma opcao valida e tente novamente.");
             }

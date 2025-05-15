@@ -1,5 +1,6 @@
 package org.example.models;
 
+import java.security.SecureRandom;
 import javax.persistence.*;
 
 @Entity
@@ -53,4 +54,19 @@ public class UsuariosEntity {
                         ", isAdmin=" + isAdmin +
                         '}';
         }
+
+        public class CodigoConfirmacao {
+                private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                private static final int LENGTH = 6;
+                private static final SecureRandom random = new SecureRandom();
+
+                public static String gerarCodigo() {
+                        StringBuilder sb = new StringBuilder(LENGTH);
+                        for (int i = 0; i < LENGTH; i++) {
+                                sb.append(CHARS.charAt(random.nextInt(CHARS.length())));
+                        }
+                        return sb.toString();
+                }
+        }
+
 }

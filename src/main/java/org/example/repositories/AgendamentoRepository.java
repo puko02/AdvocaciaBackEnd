@@ -5,13 +5,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 public class AgendamentoRepository {
-    private EntityManager em;
-
-    public AgendamentoEntity buscarPorId(Long id) {
-        return em.find(AgendamentoEntity.class, id);
-    }
 
     public void atualizarAgendamento(Long id, LocalDateTime dataHora, String descricao, String status) {
         EntityManager em = CustomizerFactory.getEntityManager();
@@ -39,5 +36,23 @@ public class AgendamentoRepository {
         }
 
     }
+
+    public AgendamentoEntity buscarProximoAgendamento() {
+        EntityManager em = CustomizerFactory.getEntityManager();
+
+        try {
+            TypedQuery<AgendamentoEntity> query = em.createQuery(
+                    "FROM AgendamentoEntity a WHERE a.dataHora > :agora ORDER BY a.dataHora ASC",
+                    AgendamentoEntity.class);
+            query.setParameter("agora", LocalDateTime.now());
+            query.setMaxResults(1);
+
+            return query.getSingleResult(); // mais direto
+        } catch (NoResultException e) {
+            return null;
+        }
+
+    }
+
 
 }
