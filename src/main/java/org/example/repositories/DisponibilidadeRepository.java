@@ -1,6 +1,6 @@
-package program.repositories;
+package org.example.repositories;
 
-import program.models.DisponibilidadeEntity;
+import org.example.models.DisponibilidadeEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -43,8 +43,6 @@ public class DisponibilidadeRepository {
                 tx.rollback();
             }
             e.printStackTrace();
-        } finally {
-            em.close();
         }
     }
 }

@@ -1,11 +1,11 @@
-package program.models;
+package org.example.models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "Agendamento")
+@Table(name = "agendamento")
 public class AgendamentoEntity {
 
     @Id
@@ -24,6 +24,13 @@ public class AgendamentoEntity {
     private String status;
 
     private String descricao;
+
+    public AgendamentoEntity(String nome, String telefone, String email, LocalDateTime dataHora) {
+    }
+
+    public AgendamentoEntity() {
+
+    }
 
     public List<DocumentosEntity> getDocumentos() {
         return documentos;

@@ -1,7 +1,8 @@
-package program.models;
+package org.example.models;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "disponibilidade")
@@ -51,16 +52,16 @@ public class DisponibilidadeEntity {
         this.diaSemana = diaSemana;
     }
 
-    public Time getHoraInicio() {
-        return horaInicio;
+    public LocalTime getHoraInicio() {
+        return horaInicio.toLocalTime();
     }
 
     public void setHoraInicio(String horaInicio) {
         this.horaInicio = Time.valueOf(horaInicio);
     }
 
-    public Time getHoraFim() {
-        return horaFim;
+    public LocalTime getHoraFim() {
+        return horaFim.toLocalTime();
     }
 
     public void setHoraFim(String horaFim) {

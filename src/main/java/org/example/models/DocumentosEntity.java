@@ -1,4 +1,4 @@
-package program.models;
+package org.example.models;
 import javax.persistence.*;
 import java.util.List;
 

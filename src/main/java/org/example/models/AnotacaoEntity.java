@@ -1,10 +1,10 @@
-package program.models;
+package org.example.models;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "anotacao")
-public class NotaEntity {
+@Table(name = "nota")
+public class AnotacaoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,8 @@ public class NotaEntity {
     @JoinColumn(name = "id_cliente")
     private UsuariosEntity cliente;
 
-    private String conteudo;
+    @Column (name = "conteudo")
+    private String nota;
 
     @Column(name = "data_criacao")
     private LocalDateTime dataCriacao;
@@ -27,12 +28,12 @@ public class NotaEntity {
         this.cliente = cliente;
     }
 
-    public String getConteudo() {
-        return conteudo;
+    public String getNota() {
+        return nota;
     }
 
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
+    public void setNota(String nota) {
+        this.nota = nota;
     }
 
     public LocalDateTime getDataCriacao() {
