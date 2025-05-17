@@ -1,10 +1,10 @@
-package org.example.functions;
+package org.example.view;
 
-import org.example.models.AnotacaoEntity;
-import org.example.models.UsuariosEntity;
-import org.example.repositories.AnotacaoRepository;
-import org.example.repositories.IAnotacaoRepository;
-import org.example.services.UsuarioService;
+import org.example.model.AnotacaoEntity;
+import org.example.model.UsuariosEntity;
+import org.example.control.repositories.AnotacaoRepository;
+import org.example.control.repositories.IAnotacaoRepository;
+import org.example.control.services.UsuarioService;
 
 import javax.persistence.EntityManager;
 import java.util.List;

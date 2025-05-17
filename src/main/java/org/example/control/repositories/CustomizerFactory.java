@@ -1,8 +1,9 @@
-package org.example.repositories;
+package org.example.control.repositories;
 
-import org.example.models.DisponibilidadeEntity;
+import org.example.model.DisponibilidadeEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 

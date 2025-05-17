@@ -1,9 +1,9 @@
-package org.example.functions;
+package org.example.view;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Scanner;
-import org.example.models.UsuariosEntity;
+import org.example.model.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginFunction {

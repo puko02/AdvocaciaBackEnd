@@ -1,7 +1,7 @@
-package org.example.functions;
+package org.example.view;
 
-import org.example.models.*;
-import org.example.services.*;
+import org.example.model.*;
+import org.example.control.services.*;
 
 import javax.persistence.EntityManager;
 import java.time.*;

@@ -1,6 +1,7 @@
-package org.example.functions;
-import org.example.models.DisponibilidadeEntity;
-import org.example.repositories.*;
+package org.example.view;
+
+import org.example.model.DisponibilidadeEntity;
+import org.example.control.repositories.*;
 
 import java.sql.Time;
 import java.util.List;

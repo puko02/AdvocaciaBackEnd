@@ -1,7 +1,6 @@
-package org.example.functions;
+package org.example.view;
 
 import javax.persistence.EntityManager;
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.Scanner;
 
 public class MenuAdmin {

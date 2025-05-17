@@ -1,7 +1,7 @@
-package org.example.functions;
+package org.example.view;
 
-import org.example.models.UsuariosEntity;
-import org.example.services.UsuarioService;
+import org.example.model.UsuariosEntity;
+import org.example.control.services.UsuarioService;
 
 import java.util.Optional;
 import java.util.Scanner;

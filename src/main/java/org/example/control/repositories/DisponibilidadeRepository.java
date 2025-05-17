@@ -1,6 +1,6 @@
-package org.example.repositories;
+package org.example.control.repositories;
 
-import org.example.models.DisponibilidadeEntity;
+import org.example.model.DisponibilidadeEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;

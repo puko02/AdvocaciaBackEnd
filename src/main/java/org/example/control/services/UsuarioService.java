@@ -1,6 +1,6 @@
-package org.example.services;
+package org.example.control.services;
 
-import org.example.models.UsuariosEntity;
+import org.example.model.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
