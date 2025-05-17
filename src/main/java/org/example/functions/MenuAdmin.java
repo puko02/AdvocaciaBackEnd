@@ -24,7 +24,7 @@ public class MenuAdmin {
                     DisponibilidadeFunction.menuDisponibilidade();
                     break;
                 case 2:
-                    UsuariosFunction.menuUser();
+                    UsuariosFunction.menuUser(em);
                     break;
                 case 3:
                     VisualizarAgendamentosFunction.menuVizuAgendamento();

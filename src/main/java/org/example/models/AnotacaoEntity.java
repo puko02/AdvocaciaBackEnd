@@ -3,7 +3,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "nota")
+@Table(name = "anotacao")
 public class AnotacaoEntity {
 
     @Id

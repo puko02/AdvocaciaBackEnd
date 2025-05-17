@@ -4,17 +4,17 @@ import org.example.models.AnotacaoEntity;
 import org.example.models.UsuariosEntity;
 import org.example.repositories.AnotacaoRepository;
 import org.example.repositories.IAnotacaoRepository;
-import org.example.repositories.UsuariosRepository;
-import org.example.repositories.IUsuariosRepository;
+import org.example.services.UsuarioService;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Scanner;
 
 public class UsuariosFunction {
 
-    public static void menuUser() {
-        IUsuariosRepository usuariosRepo = new UsuariosRepository();
-        IAnotacaoRepository anotacaoRepo = new AnotacaoRepository();
+    public static void menuUser(EntityManager em) {
+        UsuarioService usuariosService = new UsuarioService(em);
+        IAnotacaoRepository anotacaoRepo = new AnotacaoRepository(em);
         Scanner sc = new Scanner(System.in);
         int opcao = -1;
 
@@ -29,13 +29,13 @@ public class UsuariosFunction {
             sc.nextLine();
 
             switch (opcao) {
-                case 1:
-                    List<UsuariosEntity> clientes = usuariosRepo.listarClientes();
+                case 1 -> {
+                    List<UsuariosEntity> clientes = usuariosService.listarClientes();
                     clientes.forEach(cliente -> {
                         System.out.println("ID: " + cliente.getId() + " | Nome: " + cliente.getNome());
                     });
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.print("Informe o ID do cliente: ");
                     Long idCliente = sc.nextLong();
                     sc.nextLine();
@@ -43,8 +43,8 @@ public class UsuariosFunction {
                     String conteudo = sc.nextLine();
                     anotacaoRepo.adicionarAnotacao(idCliente, conteudo);
                     System.out.println("Nota adicionada com sucesso!");
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.print("Informe o ID do cliente: ");
                     Long idBusca = sc.nextLong();
                     sc.nextLine();
@@ -53,19 +53,20 @@ public class UsuariosFunction {
                         System.out.println("Nenhuma nota encontrada.");
                     } else {
                         notas.forEach(n -> {
-                            System.out.println("\nID da nota: " + n.getId() + "\nConteúdo: " + n.getNota() + "\nCriado em: " + n.getDataCriacao());
+                            System.out.println("\nID da nota: " + n.getId() +
+                                    "\nConteúdo: " + n.getNota() +
+                                    "\nCriado em: " + n.getDataCriacao());
                         });
                     }
-                    break;
-                case 0:
+                }
+                case 0 -> {
                     System.out.println("Saindo...");
                     return;
-                default:
-                    System.out.println("Opção inválida.");
+                }
+                default -> System.out.println("Opção inválida.");
             }
         }
 
         sc.close();
     }
 }
-
