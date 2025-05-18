@@ -39,10 +39,10 @@ public class DisponibilidadeFunction {
                 Long idEdit = sc.nextLong();
                 sc.nextLine();
 
-                System.out.println("Nova hora de início:");
+                System.out.println("Nova hora de início (00:00:00):");
                 Time horaInicio = Time.valueOf(sc.nextLine());
 
-                System.out.println("Nova hora de fim:");
+                System.out.println("Nova hora de fim (00:00:00):");
                 String horaFim = sc.nextLine();
 
                 System.out.println("O dia todo? (true/false):");
