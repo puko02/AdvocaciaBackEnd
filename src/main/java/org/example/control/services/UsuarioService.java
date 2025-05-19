@@ -95,6 +95,12 @@ public class UsuarioService {
 
     public void excluirUsuario(UsuariosEntity usuario) {
         EntityTransaction transaction = em.getTransaction();
+
+        if (usuario.isAdmin()) {
+            System.out.println("Erro: não é permitido excluir um usuário com status de ADMIN.");
+            return;
+        }
+
         try {
             transaction.begin();
 
