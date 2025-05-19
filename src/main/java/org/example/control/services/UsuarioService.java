@@ -6,6 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -15,6 +16,29 @@ public class UsuarioService {
 
     public UsuarioService(EntityManager em) {
         this.em = em;
+    }
+
+    private static final String CARACTERES = "abcdefghijklmnopqrstuvwxyz0123456789";
+    private static final SecureRandom random = new SecureRandom();
+
+    public String gerarTokenConfirmacao() {
+        StringBuilder token = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
+            int index = random.nextInt(CARACTERES.length());
+            token.append(CARACTERES.charAt(index));
+        }
+        return token.toString();
+    }
+
+    public void atualizarTokenConfirmacao(UsuariosEntity usuario) {
+        String novoToken = gerarTokenConfirmacao();
+
+        em.getTransaction().begin();
+        usuario.setConfirmcode(novoToken);
+        em.merge(usuario);
+        em.getTransaction().commit();
+
+        System.out.println("Token de confirmação gerado e salvo: " + novoToken);
     }
 
     public Optional<UsuariosEntity> buscarPorEmail(String email) {
@@ -124,5 +148,4 @@ public class UsuarioService {
             System.out.println("Erro ao excluir usuário: " + e.getMessage());
         }
     }
-
 }
