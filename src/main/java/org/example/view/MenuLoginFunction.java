@@ -1,9 +1,9 @@
-package org.example.functions;
+package org.example.view;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Scanner;
-import org.example.models.UsuariosEntity;
+import org.example.model.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginFunction {
@@ -24,7 +24,7 @@ public class MenuLoginFunction {
             return;
         }
 
-        if (usuario.isAdmin() == false){
+        if (!usuario.isAdmin()){
             System.out.println("Usuário não tem permissões administrativas. Pressione ENTER para retornar ao menu principal");
             sc.nextLine();
             return;
@@ -33,7 +33,7 @@ public class MenuLoginFunction {
         System.out.println("Digite a senha: ");
         if (BCrypt.checkpw(sc.nextLine(), usuario.getSenha())) {
             System.out.println("Acesso permitido!\n\n");
-            MenuAdmin.menuAdministrador();
+            MenuAdmin.menuAdministrador(em);
         } else {
             System.out.println("Senha incorreta. Pressione ENTER para retornar ao menu principal.");
             sc.nextLine();

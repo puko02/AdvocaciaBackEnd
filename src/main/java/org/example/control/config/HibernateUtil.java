@@ -1,4 +1,4 @@
-package org.example.config;
+package org.example.control.config;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

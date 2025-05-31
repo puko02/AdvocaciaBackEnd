@@ -1,4 +1,4 @@
-package org.example.functions;
+package org.example.view;
 
 import javax.persistence.EntityManager;
 import java.util.Scanner;

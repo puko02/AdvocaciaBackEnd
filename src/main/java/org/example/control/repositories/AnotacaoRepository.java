@@ -1,15 +1,19 @@
-package org.example.repositories;
+package org.example.control.repositories;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.example.config.HibernateUtil;
-import org.example.models.AnotacaoEntity;
-import org.example.models.UsuariosEntity;
+import org.example.control.config.HibernateUtil;
+import org.example.model.AnotacaoEntity;
+import org.example.model.UsuariosEntity;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class AnotacaoRepository implements IAnotacaoRepository {
+
+    public AnotacaoRepository(EntityManager em) {
+    }
 
     @Override
     public void adicionarNota(AnotacaoEntity anotacao) {

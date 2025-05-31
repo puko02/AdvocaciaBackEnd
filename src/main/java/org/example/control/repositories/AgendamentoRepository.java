@@ -1,6 +1,7 @@
-package org.example.repositories;
+package org.example.control.repositories;
 
-import org.example.models.AgendamentoEntity;
+import org.example.model.AgendamentoEntity;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import javax.persistence.TypedQuery;
 public class AgendamentoRepository {
 
     public void atualizarAgendamento(Long id, LocalDateTime dataHora, String descricao, String status) {
-        EntityManager em = CustomizerFactory.getEntityManager();
+        EntityManager em = org.example.control.repositories.CustomizerFactory.getEntityManager();
         EntityTransaction tx = em.getTransaction();
 
         try {

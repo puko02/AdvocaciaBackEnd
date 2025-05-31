@@ -1,7 +1,6 @@
-package org.example.functions;
-import org.example.models.AgendamentoEntity;
-import org.example.models.UsuariosEntity;
-import org.example.repositories.*;
+package org.example.view;
+import org.example.model.AgendamentoEntity;
+import org.example.control.repositories.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -26,7 +25,7 @@ public class VisualizarAgendamentosFunction {
             System.out.println("1. Ver todos os Agendamentos");
             System.out.println("2. Alterar Agendamento");
             System.out.println("3. Visualizar próximo agendamento");
-            System.out.println("4. Sair");
+            System.out.println("0. Sair");
             System.out.print("Escolha sua opcao: ");
             int opc = sc.nextInt();
             sc.nextLine();
@@ -93,10 +92,6 @@ public class VisualizarAgendamentosFunction {
                         agendamentoRepo.atualizarAgendamento(idEdit, dataHora, status, descricao);
                         System.out.println("Agendamento atualizado com sucesso!");
                     break;
-                case 4:
-                    sair = true;
-                    System.out.println("Saindo do menu...");
-                    break;
                 case 3:
                     AgendamentoEntity proximo = agendamentoRepo.buscarProximoAgendamento();
 
@@ -112,7 +107,10 @@ public class VisualizarAgendamentosFunction {
                         System.out.println("----------------------------------");
                     }
                     break;
-
+                case 0:
+                    sair = true;
+                    System.out.println("Saindo do menu...");
+                    break;
                 default:
                     System.out.println("Opcao Invalida. Por favor escolha uma opcao valida e tente novamente.");
             }
