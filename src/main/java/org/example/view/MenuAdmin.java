@@ -23,10 +23,11 @@ public class MenuAdmin {
                     DisponibilidadeFunction.menuDisponibilidade();
                     break;
                 case 2:
-                    UsuariosFunction.menuUser(em);
+                    UsuariosSwing.abrirTela(em);
+                    //UsuariosFunction.menuUser(em);
                     break;
                 case 3:
-                    VisualizarAgendamentosFunction.menuVizuAgendamento();
+                    VisuAgendSwing.abrirTela();
                     break;
                 case 4:
                     MenuEditFunction.MenuEditarCliente(em);

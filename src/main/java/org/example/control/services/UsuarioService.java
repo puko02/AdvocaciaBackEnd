@@ -148,4 +148,10 @@ public class UsuarioService {
             System.out.println("Erro ao excluir usuário: " + e.getMessage());
         }
     }
+
+    public Optional<UsuariosEntity> buscarPorId(Long id) {
+        UsuariosEntity usuario = em.find(UsuariosEntity.class, id);
+        return Optional.ofNullable(usuario);
+    }
+
 }

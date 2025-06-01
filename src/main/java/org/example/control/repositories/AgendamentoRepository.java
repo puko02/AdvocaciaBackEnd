@@ -55,5 +55,15 @@ public class AgendamentoRepository {
 
     }
 
+    public List<AgendamentoEntity> listarAgendamentos() {
+        EntityManager em = CustomizerFactory.getEntityManager();
+        try {
+            return em.createQuery("FROM AgendamentoEntity", AgendamentoEntity.class).getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+
 
 }
