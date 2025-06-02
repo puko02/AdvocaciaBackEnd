@@ -1,6 +1,7 @@
-package org.example.functions;
-import org.example.models.DisponibilidadeEntity;
-import org.example.repositories.*;
+package org.example.view;
+
+import org.example.model.DisponibilidadeEntity;
+import org.example.control.repositories.*;
 
 import java.sql.Time;
 import java.util.List;
@@ -25,23 +26,23 @@ public class DisponibilidadeFunction {
         if (diaSemana != null) {
             List<DisponibilidadeEntity> disponiveis = disponibilidadeRepo.diaDisponivel(diaSemana);
 
-            if (disponiveis.isEmpty()) {
+            if (disponiveis.isEmpty() || disponiveis == null) {
                 System.out.println("Nenhuma disponibilidade cadastrada para " + diaSemana);
             } else {
-                System.out.println("Disponibilidades de " + diaSemana + ":");
+                System.out.println("\n\tDisponibilidades de " + diaSemana + ":\n");
                 for (DisponibilidadeEntity disp : disponiveis) {
-                    System.out.println("ID: " + disp.getId() + " | Início: " + disp.getHoraInicio() + " | Fim: " + disp.getHoraFim() +
-                            " | Dia todo: " + disp.isDiaTodo() + " | Bloqueado: " + disp.isBloqueado());
+                    System.out.println("ID: " + disp.getId() + "\nInício: " + disp.getHoraInicio() + "\nFim: " + disp.getHoraFim() +
+                            "\nDia todo: " + disp.isDiaTodo() + "\nBloqueado: " + disp.isBloqueado());
                 }
 
                 System.out.println("Digite o ID da disponibilidade que deseja editar:");
                 Long idEdit = sc.nextLong();
                 sc.nextLine();
 
-                System.out.println("Nova hora de início:");
+                System.out.println("Nova hora de início (00:00:00):");
                 Time horaInicio = Time.valueOf(sc.nextLine());
 
-                System.out.println("Nova hora de fim:");
+                System.out.println("Nova hora de fim (00:00:00):");
                 String horaFim = sc.nextLine();
 
                 System.out.println("O dia todo? (true/false):");
@@ -57,19 +58,17 @@ public class DisponibilidadeFunction {
         } else {
             System.out.println("Opção inválida.");
         }
-
-        sc.close();
     }
 
     public static String getDiaSemana(int diaSelect) {
         switch (diaSelect) {
             case 1: return "domingo";
-            case 2: return "segunda";
-            case 3: return "terça";
-            case 4: return "quarta";
-            case 5: return "quinta";
-            case 6: return "sexta";
-            case 7: return "sabado";
+            case 2: return "segunda-feira";
+            case 3: return "terça-feira";
+            case 4: return "quarta-feira";
+            case 5: return "quinta-feira";
+            case 6: return "sexta-feira";
+            case 7: return "sábado";
             default: return null;
         }
     }

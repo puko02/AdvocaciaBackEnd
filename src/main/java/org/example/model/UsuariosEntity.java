@@ -1,4 +1,6 @@
-package org.example.models;
+package org.example.model;
+
+import java.security.SecureRandom;
 import javax.persistence.*;
 
 @Entity
@@ -10,10 +12,10 @@ public class UsuariosEntity {
         @Column(name = "id_usuario")
         private Long id;
 
-        private String telefone;
-
         @Column (nullable = true)
         private String nome;
+
+        private String telefone;
 
         @Column(unique = true, nullable = false)
         private String email;
@@ -23,8 +25,20 @@ public class UsuariosEntity {
         @Column(name = "is_admin")
         private boolean isAdmin;
 
+        @Column(name = "isactive")
+        private boolean isActive;
+
+        @Column(name = "confirmcode")
+        private String confirmCode;
+
         // Getters e Setters
         public Long getId() { return id; }
+
+        public boolean isActive() { return isActive; }
+        public void setActive(boolean active) { isActive = active; }
+
+        public String getConfirmcode() { return confirmCode; }
+        public void setConfirmcode(String confirmCode) { this.confirmCode = confirmCode; }
 
         public String getNome() { return nome; }
         public void setNome(String nome) { this.nome = nome; }
@@ -52,4 +66,7 @@ public class UsuariosEntity {
                         ", isAdmin=" + isAdmin +
                         '}';
         }
+
+
+
 }
