@@ -24,12 +24,6 @@ public class Agendamento {
         System.out.print("Digite seu email: ");
         String email = sc.nextLine();
 
-        System.out.print("Digite seu nome: ");
-        String nome = sc.nextLine();
-
-        System.out.print("Digite seu telefone: ");
-        String telefone = sc.nextLine();
-
         UsuariosEntity usuario;
 
         Optional<UsuariosEntity> existente = usuarioService.buscarPorEmail(email);
@@ -37,6 +31,14 @@ public class Agendamento {
             usuario = existente.get();
             System.out.println("E-mail vinculado a uma conta.");
         } else {
+            System.out.println("E-mail ''" + email + "'' não foi encontrado\nIniciando criação de novo cadastro: ");
+
+            System.out.print("Digite seu nome: ");
+            String nome = sc.nextLine();
+
+            System.out.print("Digite seu telefone: ");
+            String telefone = sc.nextLine();
+
             usuario = new UsuariosEntity();
             usuario.setNome(nome);
             usuario.setTelefone(telefone);
@@ -52,7 +54,6 @@ public class Agendamento {
             System.out.println("Novo usuário cadastrado.");
         }
 
-// Verificação de conta
         if (!usuario.isActive()) {
             System.out.println("Usuário inativo. Será enviado um código de verificação para seu e-mail.");
 
@@ -64,6 +65,7 @@ public class Agendamento {
 
             if (!codigoDigitado.equals(usuario.getConfirmcode())) {
                 System.out.println("Código incorreto. Encerrando agendamento.");
+                usuarioService.excluirUsuario(usuario);
                 return;
             }
 

@@ -58,9 +58,41 @@ public class UsuarioService {
         String senhaApp = "oktc btui lbdb lahi";
 
         String assunto = "Código de Verificação";
-        String corpo = "Olá, " + usuario.getNome() +
-                "\n\nSeu código de verificação é: " + token +
-                "\n\nUse este código para ativar sua conta.";
+        String corpoHtml = """
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head><meta charset="UTF-8"><title>Confirmação de E-mail</title></head>
+    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #333333;">Confirmação de E-mail</h2>
+            <p style="font-size: 16px; color: #555555;">
+                Olá, <strong>%s</strong>,
+            </p>
+            <p style="font-size: 16px; color: #555555;">
+                Recebemos uma solicitação para verificar o seu endereço de e-mail.
+            </p>
+            <p style="font-size: 16px; color: #555555;">
+                Seu código de verificação é:
+            </p>
+            <div style="text-align: center; margin: 24px 0;">
+                <span style="display: inline-block; background-color: #7851b5; color: #ffffff; font-size: 24px; font-weight: bold; padding: 12px 24px; border-radius: 6px;">
+                    %s
+                </span>
+            </div>
+            <p style="font-size: 16px; color: #555555;">
+                Insira esse código no sistema para ativar sua conta.
+            </p>
+            <p style="font-size: 14px; color: #999999;">
+                Se você não solicitou essa verificação, ignore este e-mail.
+            </p>
+            <p style="font-size: 14px; color: #999999; margin-top: 30px;">
+                Atenciosamente,<br>
+                Equipe de Suporte
+            </p>
+        </div>
+    </body>
+    </html>
+""".formatted(usuario.getNome(), token);
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -79,7 +111,7 @@ public class UsuarioService {
             message.setFrom(new InternetAddress(remetente));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailDestino));
             message.setSubject(assunto);
-            message.setText(corpo);
+            message.setContent(corpoHtml, "text/html; charset=UTF-8");
 
             Transport.send(message);
             System.out.println("E-mail de verificação enviado para " + emailDestino);
@@ -165,6 +197,15 @@ public class UsuarioService {
         em.getTransaction().commit();
 
         System.out.println("Admin status alterado para: " + (usuario.isAdmin() ? "ADMIN" : "USUÁRIO COMUM") + "\n");
+    }
+
+    public void editarIsActive(UsuariosEntity usuario) {
+        em.getTransaction().begin();
+        usuario.setActive(!usuario.isActive());
+        em.merge(usuario);
+        em.getTransaction().commit();
+
+        System.out.println("Active status alterado para: " + (usuario.isAdmin() ? "ATIVO" : "INATIVO") + "\n");
     }
 
     public void excluirUsuario(UsuariosEntity usuario) {
