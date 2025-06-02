@@ -21,14 +21,60 @@ public class Agendamento {
 
         System.out.println("\n--- AGENDAMENTO ---");
 
+        System.out.print("Digite seu email: ");
+        String email = sc.nextLine();
+
         System.out.print("Digite seu nome: ");
         String nome = sc.nextLine();
 
         System.out.print("Digite seu telefone: ");
         String telefone = sc.nextLine();
 
-        System.out.print("Digite seu email: ");
-        String email = sc.nextLine();
+        UsuariosEntity usuario;
+
+        Optional<UsuariosEntity> existente = usuarioService.buscarPorEmail(email);
+        if (existente.isPresent()) {
+            usuario = existente.get();
+            System.out.println("E-mail vinculado a uma conta.");
+        } else {
+            usuario = new UsuariosEntity();
+            usuario.setNome(nome);
+            usuario.setTelefone(telefone);
+            usuario.setEmail(email);
+            usuario.setSenha("");
+            usuario.setAdmin(false);
+            usuario.setActive(false);
+
+            em.getTransaction().begin();
+            em.persist(usuario);
+            em.getTransaction().commit();
+
+            System.out.println("Novo usuário cadastrado.");
+        }
+
+// Verificação de conta
+        if (!usuario.isActive()) {
+            System.out.println("Usuário inativo. Será enviado um código de verificação para seu e-mail.");
+
+            usuarioService.atualizarTokenConfirmacao(usuario);
+            usuarioService.enviarTokenEmail(email);
+
+            System.out.print("Digite o código de verificação enviado para o seu e-mail: ");
+            String codigoDigitado = sc.nextLine();
+
+            if (!codigoDigitado.equals(usuario.getConfirmcode())) {
+                System.out.println("Código incorreto. Encerrando agendamento.");
+                return;
+            }
+
+            em.getTransaction().begin();
+            usuario.setActive(true);
+            usuario.setConfirmcode(null);
+            em.merge(usuario);
+            em.getTransaction().commit();
+
+            System.out.println("Verificação concluída. Conta ativada com sucesso.");
+        }
 
         System.out.print("Digite o dia do agendamento (dd/MM/yyyy): ");
         String dia = sc.nextLine();
@@ -70,27 +116,6 @@ public class Agendamento {
                         disp.getHoraInicio() + " até " + disp.getHoraFim());
                 return;
             }
-        }
-
-        UsuariosEntity usuario;
-        Optional<UsuariosEntity> existente = usuarioService.buscarPorEmail(email);
-
-        if (existente.isPresent()) {
-            usuario = existente.get();
-            System.out.println("Usuário já cadastrado, reutilizando cadastro existente.");
-        } else {
-            usuario = new UsuariosEntity();
-            usuario.setNome(nome);
-            usuario.setTelefone(telefone);
-            usuario.setEmail(email);
-            usuario.setSenha("");
-            usuario.setAdmin(false);
-
-            em.getTransaction().begin();
-            em.persist(usuario);
-            em.getTransaction().commit();
-
-            System.out.println("Novo usuário cadastrado.");
         }
 
         AgendamentoEntity agendamento = new AgendamentoEntity();
