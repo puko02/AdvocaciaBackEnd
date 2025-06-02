@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+
+import java.util.Properties;
+import java.util.UUID;
+
 public class UsuarioService {
     private final EntityManager em;
 
@@ -38,8 +44,52 @@ public class UsuarioService {
         em.merge(usuario);
         em.getTransaction().commit();
 
-        System.out.println("Token de confirmação gerado e salvo: " + novoToken);
+        System.out.println("Token de confirmação gerado e salvo: ");
     }
+
+    public void enviarTokenEmail(String emailDestino) {
+        Optional<UsuariosEntity> opt = buscarPorEmail(emailDestino);
+        if (opt.isEmpty()) return;
+
+        UsuariosEntity usuario = opt.get();
+        String token = usuario.getConfirmcode();
+
+        String remetente = "testepauliadvocacia@gmail.com";
+        String senhaApp = "oktc btui lbdb lahi";
+
+        String assunto = "Código de Verificação";
+        String corpo = "Olá, " + usuario.getNome() +
+                "\n\nSeu código de verificação é: " + token +
+                "\n\nUse este código para ativar sua conta.";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(remetente, senhaApp);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(remetente));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailDestino));
+            message.setSubject(assunto);
+            message.setText(corpo);
+
+            Transport.send(message);
+            System.out.println("E-mail de verificação enviado para " + emailDestino);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao enviar e-mail.");
+        }
+    }
+
 
     public Optional<UsuariosEntity> buscarPorEmail(String email) {
         TypedQuery<UsuariosEntity> query = em.createQuery(
@@ -148,4 +198,10 @@ public class UsuarioService {
             System.out.println("Erro ao excluir usuário: " + e.getMessage());
         }
     }
+
+    public Optional<UsuariosEntity> buscarPorId(Long id) {
+        UsuariosEntity usuario = em.find(UsuariosEntity.class, id);
+        return Optional.ofNullable(usuario);
+    }
+
 }
