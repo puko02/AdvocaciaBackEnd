@@ -54,7 +54,6 @@ public class Agendamento {
             System.out.println("Novo usuário cadastrado.");
         }
 
-// Verificação de conta
         if (!usuario.isActive()) {
             System.out.println("Usuário inativo. Será enviado um código de verificação para seu e-mail.");
 
@@ -66,6 +65,7 @@ public class Agendamento {
 
             if (!codigoDigitado.equals(usuario.getConfirmcode())) {
                 System.out.println("Código incorreto. Encerrando agendamento.");
+                usuarioService.excluirUsuario(usuario);
                 return;
             }
 
