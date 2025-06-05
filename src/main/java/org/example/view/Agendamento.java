@@ -14,6 +14,8 @@ import java.util.Scanner;
 public class Agendamento {
 
     public static void fazerAgendamento(EntityManager em) {
+
+
         Scanner sc = new Scanner(System.in);
         AgendamentoService agendamentoService = new AgendamentoService(em);
         DisponibilidadeService disponibilidadeService = new DisponibilidadeService(em);

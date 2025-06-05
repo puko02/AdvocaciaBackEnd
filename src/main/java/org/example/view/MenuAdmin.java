@@ -1,43 +1,49 @@
 package org.example.view;
 
 import javax.persistence.EntityManager;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
-public class MenuAdmin {
-    public static void menuAdministrador(EntityManager em){
-        int selected = 1;
-        Scanner sc = new Scanner(System.in);
+public class MenuAdmin extends JFrame {
 
-        while(true) {
-            System.out.println("Bem vindo ao menu de Administrador\n");
-            System.out.println("1 - Editar horário de atendimento do dia da semana");
-            System.out.println("2 - Adicionar ou verificar notas de clientes");
-            System.out.println("3 - Verificar agendamentos");
-            System.out.println("4 - Editar dados de cliente");
-            System.out.print  ("0 - Sair do menu do administrador\n  -> ");
-            selected = sc.nextInt();
-            sc.nextLine();
+    public MenuAdmin(EntityManager em) {
+        setTitle("Menu do Administrador");
+        setSize(400, 400);
+        setLocationRelativeTo(null); // Centraliza na tela
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new GridLayout(6, 1, 10, 10));
 
-            switch(selected){
-                case 1:
-                    DisponibilidadeFunction.menuDisponibilidade();
-                    break;
-                case 2:
-                    UsuariosSwing.abrirTela(em);
-                    //UsuariosFunction.menuUser(em);
-                    break;
-                case 3:
-                    VisuAgendSwing.abrirTela();
-                    break;
-                case 4:
-                    MenuEditFunction.MenuEditarCliente(em);
-                    break;
-                case 0:
-                    System.out.println("Retornando...");
-                    return;
-                default:
-                    System.out.println("Opção inválida");
-            }
-        }
+        // Componentes
+        JLabel titulo = new JLabel("Bem-vindo ao menu de Administrador", SwingConstants.CENTER);
+        JButton btnEditarHorario = new JButton("1 - Editar horário de atendimento");
+        JButton btnNotasClientes = new JButton("2 - Notas de clientes");
+        JButton btnVerAgendamentos = new JButton("3 - Verificar agendamentos");
+        JButton btnEditarCliente = new JButton("4 - Editar dados de cliente");
+        JButton btnSair = new JButton("0 - Sair");
+
+        // Ações dos botões
+        btnEditarHorario.addActionListener(e -> DisponibilidadeFunction.menuDisponibilidade());
+        btnNotasClientes.addActionListener(e -> UsuariosSwing.abrirTela(em));
+        btnVerAgendamentos.addActionListener(e -> VisuAgendSwing.abrirTela());
+        btnEditarCliente.addActionListener(e -> MenuEditFunction.MenuEditarCliente(em));
+        btnSair.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "Retornando...");
+            dispose(); // Fecha a janela
+        });
+
+        // Adiciona componentes
+        add(titulo);
+        add(btnEditarHorario);
+        add(btnNotasClientes);
+        add(btnVerAgendamentos);
+        add(btnEditarCliente);
+        add(btnSair);
+    }
+
+    public static void mostrar(EntityManager em) {
+        SwingUtilities.invokeLater(() -> {
+            MenuAdmin menu = new MenuAdmin(em);
+            menu.setVisible(true);
+        });
     }
 }

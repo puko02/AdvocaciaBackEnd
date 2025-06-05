@@ -11,7 +11,5 @@ public class Main {
         EntityManager em = CustomizerFactory.getEntityManager();
 
         MenuPrincipal.mostrar(em);
-
-        em.close();
     }
 }

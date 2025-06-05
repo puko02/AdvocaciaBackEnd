@@ -33,7 +33,7 @@ public class MenuLoginFunction {
         System.out.println("Digite a senha: ");
         if (BCrypt.checkpw(sc.nextLine(), usuario.getSenha())) {
             System.out.println("Acesso permitido!\n\n");
-            MenuAdmin.menuAdministrador(em);
+            MenuAdmin.mostrar(em);
         } else {
             System.out.println("Senha incorreta. Pressione ENTER para retornar ao menu principal.");
             sc.nextLine();
