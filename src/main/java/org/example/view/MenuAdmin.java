@@ -30,7 +30,7 @@ public class MenuAdmin {
                     VisuAgendSwing.abrirTela();
                     break;
                 case 4:
-                    MenuEditFunction.MenuEditarCliente(em);
+                    MenuEditSwing.mostrar(em);
                     break;
                 case 0:
                     System.out.println("Retornando...");
