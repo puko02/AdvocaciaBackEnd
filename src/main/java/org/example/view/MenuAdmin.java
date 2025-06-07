@@ -46,4 +46,5 @@ public class MenuAdmin extends JFrame {
             menu.setVisible(true);
         });
     }
+
 }
