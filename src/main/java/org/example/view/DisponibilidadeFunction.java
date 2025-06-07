@@ -3,6 +3,10 @@ package org.example.view;
 import org.example.model.DisponibilidadeEntity;
 import org.example.control.repositories.*;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Time;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +14,62 @@ import java.util.Scanner;
 public class DisponibilidadeFunction {
 
     public static void menuDisponibilidade(){
+
+        JFrame frmMenuDisponibilidade = new JFrame();
+        frmMenuDisponibilidade.setTitle("Gerenciamento de Disponibilidade");
+        frmMenuDisponibilidade.setSize(375, 308);
+        frmMenuDisponibilidade.getContentPane().setLayout(null);
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBounds(0, 10, 361, 30);
+        frmMenuDisponibilidade.getContentPane().add(titlePanel);
+
+        JLabel titleLabel = new JLabel("Menu de Disponibilidade");
+        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+        titlePanel.add(titleLabel);
+
+        JPanel diaSemanaPanel = new JPanel();
+        diaSemanaPanel.setBounds(0, 62, 361, 67);
+        frmMenuDisponibilidade.getContentPane().add(diaSemanaPanel);
+
+        JLabel diaSemanaLabel = new JLabel("Escolha o dia da semana a editar: ");
+        diaSemanaLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+        diaSemanaPanel.add(diaSemanaLabel);
+
+        JComboBox comboBox = new JComboBox();
+        comboBox.setToolTipText("Dia da Semana");
+        comboBox.setModel(new DefaultComboBoxModel(new String[] {"Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"}));
+        comboBox.setMaximumRowCount(7);
+        comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        diaSemanaPanel.add(comboBox);
+
+        JButton btnConfirmar = new JButton("Confirmar");
+        btnConfirmar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                EditarDisponibilidadeSwing.EditarDisponibilidade();
+                frmMenuDisponibilidade.setVisible(false);
+            }
+        });
+        btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
+        diaSemanaPanel.add(btnConfirmar);
+
+        JPanel retornar = new JPanel();
+        retornar.setBounds(0, 202, 361, 43);
+        frmMenuDisponibilidade.getContentPane().add(retornar);
+
+        JButton btnRetornar = new JButton("Retornar");
+        btnRetornar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frmMenuDisponibilidade.dispose();
+            }
+        });
+        btnRetornar.setFont(new Font("Tahoma", Font.BOLD, 13));
+        retornar.add(btnRetornar);
+
+        frmMenuDisponibilidade.setVisible(true);
+
         Scanner sc = new Scanner(System.in);
         DisponibilidadeRepository disponibilidadeRepo = new DisponibilidadeRepository();
 
