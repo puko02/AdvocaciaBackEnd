@@ -9,7 +9,15 @@ import java.util.List;
 import java.sql.Time;
 import java.time.LocalTime;
 
+
+
 public class DisponibilidadeRepository {
+
+    private EntityManager em;
+
+    public DisponibilidadeRepository(EntityManager em) {
+        this.em = em;
+    }
 
     public List<DisponibilidadeEntity> diaDisponivel(String diaSemana) {
         EntityManager em = CustomizerFactory.getEntityManager();

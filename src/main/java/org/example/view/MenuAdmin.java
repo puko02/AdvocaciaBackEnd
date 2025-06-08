@@ -12,7 +12,7 @@ public class MenuAdmin extends JFrame {
         setLocationRelativeTo(null); // Centraliza na tela
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(6, 1, 10, 10));
-
+        
         // Componentes
         JLabel titulo = new JLabel("Bem-vindo ao menu de Administrador", SwingConstants.CENTER);
         JButton btnEditarHorario = new JButton("1 - Editar horário de atendimento");
@@ -22,7 +22,7 @@ public class MenuAdmin extends JFrame {
         JButton btnSair = new JButton("0 - Sair");
 
         // Ações dos botões
-        btnEditarHorario.addActionListener(e -> DisponibilidadeFunction.menuDisponibilidade());
+        btnEditarHorario.addActionListener(e -> DisponibilidadeSwing.abrirTela(em));
         btnNotasClientes.addActionListener(e -> UsuariosSwing.abrirTela(em));
         btnVerAgendamentos.addActionListener(e -> VisuAgendSwing.abrirTela());
         btnEditarCliente.addActionListener(e -> MenuEditFunction.MenuEditarCliente(em));
@@ -38,6 +38,7 @@ public class MenuAdmin extends JFrame {
         add(btnVerAgendamentos);
         add(btnEditarCliente);
         add(btnSair);
+
     }
 
     public static void mostrar(EntityManager em) {

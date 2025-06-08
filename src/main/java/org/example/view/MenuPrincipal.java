@@ -31,7 +31,7 @@ public class MenuPrincipal extends JFrame {
 
         // Ações dos botões
         btnLogin.addActionListener(e -> {
-            MenuLoginFunction.Menulogin(em, null);
+            MenuLoginSwing.abrirTela(em);
         });
 
         btnAgendamento.addActionListener(e -> {
@@ -39,7 +39,7 @@ public class MenuPrincipal extends JFrame {
         });
 
         btnConsultas.addActionListener(e -> {
-            MenuConsultasFunction.MenuConsultas(em, null);
+            MenuConsultasSwing.abrirTela(em);
         });
 
         btnSair.addActionListener(e -> {
@@ -53,6 +53,7 @@ public class MenuPrincipal extends JFrame {
         SwingUtilities.invokeLater(() -> {
             new MenuPrincipal(em).setVisible(true);
         });
+
     }
 
 }
