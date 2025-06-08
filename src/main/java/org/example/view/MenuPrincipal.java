@@ -21,9 +21,9 @@ public class MenuPrincipal {
             sc.nextLine(); //limpa
 
             switch (option) {
-                case 1 -> MenuLoginFunction.Menulogin(em,sc);
+                case 1 -> MenuLoginSwing.abrirTela(em);
                 case 2 -> Agendamento.fazerAgendamento(em);
-                case 3 -> MenuConsultasFunction.MenuConsultas(em,sc);
+                case 3 -> MenuConsultasSwing.abrirTela(em);
                 case 0 -> {
                     System.out.println("Saindo...");
                     exit = true;

@@ -20,7 +20,8 @@ public class MenuAdmin {
 
             switch(selected){
                 case 1:
-                    DisponibilidadeFunction.menuDisponibilidade();
+                    DisponibilidadeSwing.abrirTela(em);
+                    //DisponibilidadeFunction.menuDisponibilidade();
                     break;
                 case 2:
                     UsuariosSwing.abrirTela(em);
