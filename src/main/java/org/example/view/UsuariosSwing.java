@@ -23,21 +23,22 @@ public class UsuariosSwing extends JFrame {
         this.anotacaoRepo = new AnotacaoRepository(em);
 
         setTitle("Gerenciamento de Clientes e Notas");
-        setSize(600, 400);
+        setSize(500, 350);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
-        JLabel titulo = new JLabel("Menu de Clientes", SwingConstants.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel titulo = new JLabel("👤 Menu de Clientes", SwingConstants.CENTER);
+        titulo.setFont(new Font("Arial", Font.BOLD, 18));
+        titulo.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
 
-        JButton btnListar = new JButton("Listar Clientes");
-        JButton btnAdicionarNota = new JButton("Adicionar Nota");
-        JButton btnVerNotas = new JButton("Ver Notas de um Cliente");
-        JButton btnSair = new JButton("Sair");
+        JButton btnListar = new JButton("📋 Listar Clientes");
+        JButton btnAdicionarNota = new JButton("📝 Adicionar Nota");
+        JButton btnVerNotas = new JButton("🔍 Ver Notas");
+        JButton btnSair = new JButton("❌ Sair");
 
-        JPanel botoes = new JPanel();
-        botoes.setLayout(new GridLayout(4, 1, 10, 10));
+        JPanel botoes = new JPanel(new GridLayout(4, 1, 10, 10));
+        botoes.setBorder(BorderFactory.createEmptyBorder(0, 40, 20, 40));
         botoes.add(btnListar);
         botoes.add(btnAdicionarNota);
         botoes.add(btnVerNotas);
@@ -46,14 +47,13 @@ public class UsuariosSwing extends JFrame {
         add(titulo, BorderLayout.NORTH);
         add(botoes, BorderLayout.CENTER);
 
-        // Ações dos botões
         btnListar.addActionListener(e -> listarClientes());
         btnAdicionarNota.addActionListener(e -> adicionarNota());
         btnVerNotas.addActionListener(e -> verNotas());
         btnSair.addActionListener(e -> dispose());
     }
 
-    // Método para abrir a janela
+    // Método público para abrir a tela
     public static void abrirTela(EntityManager em) {
         SwingUtilities.invokeLater(() -> {
             UsuariosSwing janela = new UsuariosSwing(em);
@@ -87,8 +87,8 @@ public class UsuariosSwing extends JFrame {
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        JFrame frame = new JFrame("Lista de Clientes");
-        frame.setSize(600, 400);
+        JFrame frame = new JFrame("📋 Lista de Clientes");
+        frame.setSize(600, 300);
         frame.add(scrollPane);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -96,7 +96,7 @@ public class UsuariosSwing extends JFrame {
 
     private void adicionarNota() {
         try {
-            String idStr = JOptionPane.showInputDialog(this, "Digite o ID do cliente:");
+            String idStr = JOptionPane.showInputDialog(this, "ID do cliente:");
             if (idStr == null) return;
             Long id = Long.parseLong(idStr);
 
@@ -106,14 +106,14 @@ public class UsuariosSwing extends JFrame {
                 return;
             }
 
-            String conteudo = JOptionPane.showInputDialog(this, "Digite o conteúdo da nota:");
+            String conteudo = JOptionPane.showInputDialog(this, "Conteúdo da nota:");
             if (conteudo == null || conteudo.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Nota vazia. Operação cancelada.");
+                JOptionPane.showMessageDialog(this, "Nota vazia.");
                 return;
             }
 
             anotacaoRepo.adicionarAnotacao(id, conteudo);
-            JOptionPane.showMessageDialog(this, "Nota adicionada com sucesso!");
+            JOptionPane.showMessageDialog(this, "Nota salva com sucesso!");
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID inválido.");
@@ -122,7 +122,7 @@ public class UsuariosSwing extends JFrame {
 
     private void verNotas() {
         try {
-            String idStr = JOptionPane.showInputDialog(this, "Digite o ID do cliente:");
+            String idStr = JOptionPane.showInputDialog(this, "ID do cliente:");
             if (idStr == null) return;
             Long id = Long.parseLong(idStr);
 
@@ -135,9 +135,9 @@ public class UsuariosSwing extends JFrame {
 
             StringBuilder sb = new StringBuilder();
             for (AnotacaoEntity nota : notas) {
-                sb.append("ID da Nota: ").append(nota.getId()).append("\n");
+                sb.append("📝 Nota ID: ").append(nota.getId()).append("\n");
                 sb.append("Conteúdo: ").append(nota.getNota()).append("\n");
-                sb.append("Data de Criação: ").append(nota.getDataCriacao()).append("\n\n");
+                sb.append("Criado em: ").append(nota.getDataCriacao()).append("\n\n");
             }
 
             JTextArea area = new JTextArea(sb.toString());
@@ -146,8 +146,7 @@ public class UsuariosSwing extends JFrame {
             JScrollPane scroll = new JScrollPane(area);
             scroll.setPreferredSize(new Dimension(500, 300));
 
-            JOptionPane.showMessageDialog(this, scroll, "Notas do Cliente", JOptionPane.INFORMATION_MESSAGE);
-
+            JOptionPane.showMessageDialog(this, scroll, "🔍 Notas do Cliente", JOptionPane.INFORMATION_MESSAGE);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "ID inválido.");
         }
