@@ -4,17 +4,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Scanner;
+import org.example.control.services.UsuarioService;
+import org.example.model.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginSwing extends JFrame {
 
-        private static JTextField userField;
-        private static JPasswordField passwordField;
+    private static JTextField userField;
+    private static JPasswordField passwordField;
+    private final UsuariosEntity usuariosEntity;
 
-	    public MenuLoginSwing(EntityManager em) {
+        public MenuLoginSwing(EntityManager em) {
+            this.usuariosEntity = new UsuariosEntity();
 
-            //JFrame frmMenuLogin = new JFrame();
             setSize(500, 300);
             getContentPane().setLayout(null);
 
@@ -50,8 +56,8 @@ public class MenuLoginSwing extends JFrame {
             passwordField.setFont(new Font("Tahoma", Font.PLAIN, 12));
             loginPanel.add(passwordField);
 
-            JLabel blankLabel = new JLabel("");
-            loginPanel.add(blankLabel);
+            JLabel statusLabel = new JLabel("");
+            loginPanel.add(statusLabel);
 
             JButton btnLogin = new JButton("Login");
             btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -61,43 +67,57 @@ public class MenuLoginSwing extends JFrame {
             panel.setBounds(0, 220, 486, 33);
             getContentPane().add(panel);
 
-            JButton btnNewButton = new JButton("Retornar");
-            btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
-            panel.add(btnNewButton);
+            JButton btnRetornar = new JButton("Retornar");
+            btnRetornar.setFont(new Font("Tahoma", Font.BOLD, 13));
+            btnRetornar.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    dispose();
+                }
+            });
+            panel.add(btnRetornar);
 
-            /*
-        System.out.println("Menu Login\nDigite o e-mail: ");
-        String email = sc.nextLine();
+            btnLogin.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String email = userField.getText();
+                    String senha = new String(passwordField.getPassword());
 
-        String prefixo = "SELECT u FROM UsuariosEntity u WHERE u.email = :email";
-        TypedQuery<UsuariosEntity> query = em.createQuery(prefixo, UsuariosEntity.class);
-        query.setParameter("email", email);
+                    if (email.isEmpty() || senha.isEmpty()) {
+                        statusLabel.setText("Preencha todos os campos.");
+                        return;
+                    }
 
-        UsuariosEntity usuario = null;
-        try {
-            usuario = query.getSingleResult();
-        } catch (Exception e) {
-            System.out.println("E-mail não encontrado. Pressione ENTER para retornar ao menu principal.");
-            sc.nextLine();
-            return;
+                    try {
+                        String jpql = "SELECT u FROM UsuariosEntity u WHERE u.email = :email";
+                        TypedQuery<UsuariosEntity> query = em.createQuery(jpql, UsuariosEntity.class);
+                        query.setParameter("email", email);
+
+                        UsuariosEntity usuario = query.getSingleResult();
+
+                        if (!usuario.isAdmin()) {
+                            statusLabel.setText("Sem permissão administrativa.");
+                            return;
+                        }
+
+                        if (BCrypt.checkpw(senha, usuario.getSenha())) {
+                            statusLabel.setForeground(Color.GREEN);
+                            statusLabel.setText("Acesso permitido!");
+
+                            // Abrir Menu Admin
+                            dispose(); // Fecha a janela de login
+                            MenuAdmin.mostrar(em);
+
+                        } else {
+                            statusLabel.setText("Senha incorreta.");
+                        }
+
+                    } catch (Exception ex) {
+                        statusLabel.setText("E-mail não encontrado.");
+                    }
+                }
+            });
         }
-
-        if (!usuario.isAdmin()){
-            System.out.println("Usuário não tem permissões administrativas. Pressione ENTER para retornar ao menu principal");
-            sc.nextLine();
-            return;
-        }
-
-        System.out.println("Digite a senha: ");
-        if (BCrypt.checkpw(sc.nextLine(), usuario.getSenha())) {
-            System.out.println("Acesso permitido!\n\n");
-            MenuAdmin.menuAdministrador(em);
-        } else {
-            System.out.println("Senha incorreta. Pressione ENTER para retornar ao menu principal.");
-            sc.nextLine();
-        }
-             */
-    }
 
     public static void abrirTela(EntityManager em) {
         SwingUtilities.invokeLater(() -> {

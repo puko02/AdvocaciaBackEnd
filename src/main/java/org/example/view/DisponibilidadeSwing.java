@@ -1,10 +1,6 @@
 package org.example.view;
 
-import org.example.control.services.DisponibilidadeService;
-import org.example.control.services.UsuarioService;
 import org.example.model.DisponibilidadeEntity;
-import org.example.control.repositories.*;
-
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
@@ -13,121 +9,152 @@ import java.awt.event.MouseEvent;
 import java.sql.Time;
 import java.util.List;
 import java.util.Scanner;
+import org.example.control.repositories.DisponibilidadeRepository;
+import org.example.model.DisponibilidadeEntity;
+import javax.swing.table.DefaultTableModel;
+import java.sql.Time;
+import java.util.List;
 
-public class DisponibilidadeSwing extends JFrame{
+public class DisponibilidadeSwing extends JFrame {
 
-    private final DisponibilidadeService disponibilidadeService;
-    private final DisponibilidadeRepository disponibilidadeRepository;
-    private final DisponibilidadeEntity disponibilidadeEntity;
+    private DisponibilidadeRepository disponibilidadeRepo;
+    public DisponibilidadeSwing(EntityManager em) {
+        this.disponibilidadeRepo = new DisponibilidadeRepository(em);
 
-    public DisponibilidadeSwing(EntityManager em){
+        setTitle("Gerenciar Disponibilidade");
+        setSize(800, 500);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
-        this.disponibilidadeService = new DisponibilidadeService(em);
-        this.disponibilidadeRepository = new DisponibilidadeRepository(em);
-        this.disponibilidadeEntity = new DisponibilidadeEntity();
+        JPanel topPanel = new JPanel(new FlowLayout());
 
-        //JFrame frmMenuDisponibilidade = new JFrame();
-        setTitle("Gerenciamento de Disponibilidade");
-        setSize(375, 308);
-        getContentPane().setLayout(null);
-
-        JPanel titlePanel = new JPanel();
-        titlePanel.setBounds(0, 10, 361, 30);
-        getContentPane().add(titlePanel);
-
-        JLabel titleLabel = new JLabel("Menu de Disponibilidade");
-        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-        titlePanel.add(titleLabel);
-
-        JPanel diaSemanaPanel = new JPanel();
-        diaSemanaPanel.setBounds(0, 62, 361, 67);
-        getContentPane().add(diaSemanaPanel);
-
-        JLabel diaSemanaLabel = new JLabel("Escolha o dia da semana a editar: ");
-        diaSemanaLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-        diaSemanaPanel.add(diaSemanaLabel);
-
-        JComboBox comboBox = new JComboBox();
-        comboBox.setToolTipText("Dia da Semana");
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"}));
-        comboBox.setMaximumRowCount(7);
-        comboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        diaSemanaPanel.add(comboBox);
-
-        JButton btnConfirmar = new JButton("Confirmar");
-        btnConfirmar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                EditarDisponibilidadeSwing.abrirTela(em);
-            }
-        });
-        btnConfirmar.setFont(new Font("Tahoma", Font.BOLD, 13));
-        diaSemanaPanel.add(btnConfirmar);
-
-        JPanel retornar = new JPanel();
-        retornar.setBounds(0, 202, 361, 43);
-        getContentPane().add(retornar);
+        JLabel labelDia = new JLabel("Selecione o dia da semana:");
+        String[] diasSemana = {
+                "Domingo", "Segunda-feira", "Terça-feira",
+                "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"
+        };
+        JComboBox<String> comboDia = new JComboBox<>(diasSemana);
+        JButton btnBuscar = new JButton("Buscar");
 
         JButton btnRetornar = new JButton("Retornar");
         btnRetornar.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                dispose();
             }
         });
-        btnRetornar.setFont(new Font("Tahoma", Font.BOLD, 13));
-        retornar.add(btnRetornar);
 
-        /*
-        Scanner sc = new Scanner(System.in);
-        DisponibilidadeRepository disponibilidadeRepo = new DisponibilidadeRepository();
+        topPanel.add(labelDia);
+        topPanel.add(comboDia);
+        topPanel.add(btnBuscar);
+        topPanel.add(btnRetornar);
 
-        System.out.println("Qual dia da semana deseja editar?");
-        System.out.print(" 1 - Domingo\n 2 - Segunda-feira\n 3 - Terça-feira\n 4 - Quarta-feira\n 5 - Quinta-feira\n 6 - Sexta-feira\n 7 - Sábado\n  0 - Voltar ao menu do administrador\n -> ");
-        int diaSelect = sc.nextInt();
-        sc.nextLine();
+        add(topPanel, BorderLayout.NORTH);
 
-        String diaSemana = getDiaSemana(diaSelect);
-        if (diaSelect == 0){
-            return;
-        }
+        //Tabela com as informaçoes da disponibilidade dos dias da semana
+        String[] columnNames = {"ID", "Hora Início", "Hora Fim", "Dia Todo", "Bloqueado"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        JTable table = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(table);
 
-        if (diaSemana != null) {
+        add(scrollPane, BorderLayout.CENTER);
+
+        JPanel formPanel = new JPanel(new GridLayout(2, 5, 10, 10));
+
+        JTextField fieldHoraInicio = new JTextField();
+        JTextField fieldHoraFim = new JTextField();
+        JCheckBox checkDiaTodo = new JCheckBox("Dia Todo");
+        JCheckBox checkBloqueado = new JCheckBox("Bloqueado");
+        JButton btnAtualizar = new JButton("Atualizar Disponibilidade");
+
+        formPanel.add(new JLabel("Hora Início (HH:MM:SS):"));
+        formPanel.add(fieldHoraInicio);
+        formPanel.add(new JLabel("Hora Fim (HH:MM:SS):"));
+        formPanel.add(fieldHoraFim);
+        formPanel.add(checkDiaTodo);
+        formPanel.add(new JLabel());
+        formPanel.add(new JLabel());
+        formPanel.add(checkBloqueado);
+        formPanel.add(new JLabel());
+        formPanel.add(btnAtualizar);
+
+        add(formPanel, BorderLayout.SOUTH);
+
+        //Mostrar a situaçao do evento, seja um erro ou nao
+        JLabel labelStatus = new JLabel(" ");
+        labelStatus.setHorizontalAlignment(SwingConstants.CENTER);
+        labelStatus.setForeground(Color.RED);
+        add(labelStatus, BorderLayout.PAGE_END);
+
+        //Adicionando o evento de buscar a disponibilidade do dia escolhido
+        btnBuscar.addActionListener(e -> {
+            String diaSemana = comboDia.getSelectedItem().toString().toLowerCase();
+
+            tableModel.setRowCount(0); // Limpar tabela
+
             List<DisponibilidadeEntity> disponiveis = disponibilidadeRepo.diaDisponivel(diaSemana);
 
-            if (disponiveis.isEmpty() || disponiveis == null) {
-                System.out.println("Nenhuma disponibilidade cadastrada para " + diaSemana);
+            if (disponiveis == null || disponiveis.isEmpty()) {
+                labelStatus.setText("Nenhuma disponibilidade encontrada para " + diaSemana);
             } else {
-                System.out.println("\n\tDisponibilidades de " + diaSemana + ":\n");
+                labelStatus.setText("Disponibilidades carregadas para " + diaSemana);
                 for (DisponibilidadeEntity disp : disponiveis) {
-                    System.out.println("ID: " + disp.getId() + "\nInício: " + disp.getHoraInicio() + "\nFim: " + disp.getHoraFim() +
-                            "\nDia todo: " + disp.isDiaTodo() + "\nBloqueado: " + disp.isBloqueado());
+                    Object[] row = {
+                            disp.getId(),
+                            disp.getHoraInicio(),
+                            disp.getHoraFim(),
+                            disp.isDiaTodo(),
+                            disp.isBloqueado()
+                    };
+                    tableModel.addRow(row);
                 }
-
-                System.out.println("Digite o ID da disponibilidade que deseja editar:");
-                Long idEdit = sc.nextLong();
-                sc.nextLine();
-
-                System.out.println("Nova hora de início (00:00:00):");
-                Time horaInicio = Time.valueOf(sc.nextLine());
-
-                System.out.println("Nova hora de fim (00:00:00):");
-                String horaFim = sc.nextLine();
-
-                System.out.println("O dia todo? (true/false):");
-                boolean isDiaTodo = sc.nextBoolean();
-
-                System.out.println("Bloquear esse horário? (true/false):");
-                boolean isBloqueado = sc.nextBoolean();
-
-                // Atualizar no banco
-                disponibilidadeRepo.atualizarDisponibilidade(idEdit, horaInicio, Time.valueOf(horaFim), isDiaTodo, isBloqueado);
-                System.out.println("Disponibilidade atualizada com sucesso!");
             }
-        } else {
-            System.out.println("Opção inválida.");
-        }
+        });
 
-         */
+        //Selecionar a linha da tabela
+        table.getSelectionModel().addListSelectionListener(event -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >= 0) {
+                fieldHoraInicio.setText(tableModel.getValueAt(selectedRow, 1).toString());
+                fieldHoraFim.setText(tableModel.getValueAt(selectedRow, 2).toString());
+                checkDiaTodo.setSelected((boolean) tableModel.getValueAt(selectedRow, 3));
+                checkBloqueado.setSelected((boolean) tableModel.getValueAt(selectedRow, 4));
+            }
+        });
+
+        //Atualizar a disponibildiade
+        btnAtualizar.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+
+            if (selectedRow < 0) {
+                labelStatus.setText("Selecione uma disponibilidade na tabela.");
+                return;
+            }
+
+            try {
+                Long id = Long.valueOf(tableModel.getValueAt(selectedRow, 0).toString());
+                Time horaInicio = Time.valueOf(fieldHoraInicio.getText());
+                Time horaFim = Time.valueOf(fieldHoraFim.getText());
+                boolean isDiaTodo = checkDiaTodo.isSelected();
+                boolean isBloqueado = checkBloqueado.isSelected();
+
+                disponibilidadeRepo.atualizarDisponibilidade(id, horaInicio, horaFim, isDiaTodo, isBloqueado);
+
+                labelStatus.setForeground(Color.GREEN);
+                labelStatus.setText("Disponibilidade atualizada com sucesso!");
+
+                // Atualiza a tabela
+                tableModel.setValueAt(horaInicio, selectedRow, 1);
+                tableModel.setValueAt(horaFim, selectedRow, 2);
+                tableModel.setValueAt(isDiaTodo, selectedRow, 3);
+                tableModel.setValueAt(isBloqueado, selectedRow, 4);
+
+            } catch (Exception ex) {
+                labelStatus.setForeground(Color.RED);
+                labelStatus.setText("Erro ao atualizar: " + ex.getMessage());
+            }
+        });
     }
 
     public static void abrirTela(EntityManager em) {
@@ -137,6 +164,9 @@ public class DisponibilidadeSwing extends JFrame{
         });
     }
 
+}
+
+    /*
     public static String getDiaSemana(int diaSelect) {
         switch (diaSelect) {
             case 1: return "domingo";
@@ -149,4 +179,4 @@ public class DisponibilidadeSwing extends JFrame{
             default: return null;
         }
     }
-}
+     */
