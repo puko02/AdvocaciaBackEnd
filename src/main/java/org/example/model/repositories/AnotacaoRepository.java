@@ -1,8 +1,8 @@
-package org.example.control.repositories;
+package org.example.model.repositories;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.example.control.config.HibernateUtil;
+import org.example.model.config.HibernateUtil;
 import org.example.model.AnotacaoEntity;
 import org.example.model.UsuariosEntity;
 

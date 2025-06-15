@@ -1,7 +1,7 @@
 package org.example.view;
 
-import org.example.control.repositories.AnotacaoRepository;
-import org.example.control.repositories.IAnotacaoRepository;
+import org.example.model.repositories.AnotacaoRepository;
+import org.example.model.repositories.IAnotacaoRepository;
 import org.example.control.services.UsuarioService;
 import org.example.model.AnotacaoEntity;
 import org.example.model.UsuariosEntity;

@@ -15,7 +15,6 @@ import jakarta.mail.*;
 import jakarta.mail.internet.*;
 
 import java.util.Properties;
-import java.util.UUID;
 
 public class UsuarioService {
     private final EntityManager em;

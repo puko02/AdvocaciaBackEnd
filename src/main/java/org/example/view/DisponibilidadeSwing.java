@@ -8,12 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Time;
 import java.util.List;
-import java.util.Scanner;
-import org.example.control.repositories.DisponibilidadeRepository;
-import org.example.model.DisponibilidadeEntity;
+import org.example.model.repositories.DisponibilidadeRepository;
 import javax.swing.table.DefaultTableModel;
-import java.sql.Time;
-import java.util.List;
 
 public class DisponibilidadeSwing extends JFrame {
 

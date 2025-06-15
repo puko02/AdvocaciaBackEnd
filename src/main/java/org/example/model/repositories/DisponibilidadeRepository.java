@@ -1,13 +1,13 @@
-package org.example.control.repositories;
+package org.example.model.repositories;
 
 import org.example.model.DisponibilidadeEntity;
+import org.example.model.config.CustomizerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.sql.Time;
-import java.time.LocalTime;
 
 
 

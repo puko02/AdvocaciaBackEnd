@@ -1,4 +1,4 @@
-package org.example.control.repositories;
+package org.example.model.config;
 
 import org.example.model.DisponibilidadeEntity;
 import org.hibernate.SessionFactory;

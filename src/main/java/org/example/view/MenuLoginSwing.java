@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Scanner;
-import org.example.control.services.UsuarioService;
 import org.example.model.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 

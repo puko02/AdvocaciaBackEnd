@@ -1,6 +1,6 @@
 package org.example.view;
 
-import org.example.control.repositories.AgendamentoRepository;
+import org.example.model.repositories.AgendamentoRepository;
 import org.example.model.AgendamentoEntity;
 
 import javax.swing.*;
