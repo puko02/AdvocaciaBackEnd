@@ -1,4 +1,4 @@
-package org.example.view;
+package org.example.view.viewGUI;
 
 import org.example.model.repositories.AgendamentoRepository;
 import org.example.model.AgendamentoEntity;

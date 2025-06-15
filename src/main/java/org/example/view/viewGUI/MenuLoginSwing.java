@@ -1,4 +1,4 @@
-package org.example.view;
+package org.example.view.viewGUI;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

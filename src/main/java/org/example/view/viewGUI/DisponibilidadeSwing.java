@@ -1,4 +1,4 @@
-package org.example.view;
+package org.example.view.viewGUI;
 
 import org.example.model.DisponibilidadeEntity;
 import javax.persistence.EntityManager;

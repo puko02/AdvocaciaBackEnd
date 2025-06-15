@@ -3,7 +3,6 @@ package org.example;
 import javax.persistence.EntityManager;
 
 import org.example.view.MenuPrincipal;
-import org.example.model.UsuariosEntity;
 import org.example.model.config.CustomizerFactory;
 
 public class Main {
