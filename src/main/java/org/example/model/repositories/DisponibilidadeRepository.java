@@ -1,6 +1,6 @@
 package org.example.model.repositories;
 
-import org.example.model.DisponibilidadeEntity;
+import org.example.model.entities.DisponibilidadeEntity;
 import org.example.model.config.CustomizerFactory;
 
 import javax.persistence.EntityManager;

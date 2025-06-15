@@ -1,6 +1,6 @@
 package org.example.control.services;
 
-import org.example.model.AgendamentoEntity;
+import org.example.model.entities.AgendamentoEntity;
 
 import javax.persistence.EntityManager;
 

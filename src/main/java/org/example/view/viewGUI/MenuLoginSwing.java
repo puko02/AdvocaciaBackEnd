@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginSwing extends JFrame {

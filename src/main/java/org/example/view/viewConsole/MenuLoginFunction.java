@@ -1,9 +1,10 @@
-package org.example.view;
+package org.example.view.viewConsole;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.Scanner;
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.UsuariosEntity;
+import org.example.view.viewGUI.MenuAdmin;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginFunction {

@@ -1,6 +1,6 @@
-package org.example.view;
+package org.example.view.viewConsole;
 
-import org.example.model.*;
+import org.example.model.entities.*;
 import org.example.control.services.*;
 
 import javax.persistence.EntityManager;

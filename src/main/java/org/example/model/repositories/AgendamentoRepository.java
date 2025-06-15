@@ -1,6 +1,6 @@
 package org.example.model.repositories;
 
-import org.example.model.AgendamentoEntity;
+import org.example.model.entities.AgendamentoEntity;
 import org.example.model.config.CustomizerFactory;
 
 import java.time.LocalDateTime;

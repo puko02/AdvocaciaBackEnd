@@ -1,6 +1,6 @@
 package org.example.view;
 
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.UsuariosEntity;
 import org.example.control.services.UsuarioService;
 
 import java.util.Optional;

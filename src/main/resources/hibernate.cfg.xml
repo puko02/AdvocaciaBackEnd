@@ -9,10 +9,10 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
-        <mapping class="org.example.model.UsuariosEntity"/>
-        <mapping class="org.example.model.AgendamentoEntity"/>
-        <mapping class="org.example.model.DocumentosEntity"/>
-        <mapping class="org.example.model.AnotacaoEntity"/>
-        <mapping class="org.example.model.DisponibilidadeEntity"/>
+        <mapping class="org.example.model.entities.UsuariosEntity"/>
+        <mapping class="org.example.model.entities.AgendamentoEntity"/>
+        <mapping class="org.example.model.entities.DocumentosEntity"/>
+        <mapping class="org.example.model.entities.AnotacaoEntity"/>
+        <mapping class="org.example.model.entities.DisponibilidadeEntity"/>
     </session-factory>
 </hibernate-configuration>

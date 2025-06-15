@@ -3,8 +3,8 @@ package org.example.model.repositories;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.example.model.config.HibernateUtil;
-import org.example.model.AnotacaoEntity;
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.AnotacaoEntity;
+import org.example.model.entities.UsuariosEntity;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;

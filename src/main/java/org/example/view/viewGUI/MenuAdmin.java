@@ -1,5 +1,7 @@
 package org.example.view.viewGUI;
 
+import org.example.view.MenuEditFunction;
+
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;

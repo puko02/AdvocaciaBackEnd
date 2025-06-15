@@ -2,7 +2,7 @@ package org.example;
 
 import javax.persistence.EntityManager;
 
-import org.example.view.MenuPrincipal;
+import org.example.view.viewGUI.MenuPrincipal;
 import org.example.model.config.CustomizerFactory;
 
 public class Main {

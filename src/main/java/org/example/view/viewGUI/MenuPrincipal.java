@@ -1,5 +1,7 @@
 package org.example.view.viewGUI;
 
+import org.example.view.viewConsole.Agendamento;
+
 import javax.persistence.EntityManager;
 import java.awt.*;
 import javax.swing.*;

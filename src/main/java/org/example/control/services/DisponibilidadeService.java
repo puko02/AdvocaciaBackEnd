@@ -1,6 +1,6 @@
 package org.example.control.services;
 
-import org.example.model.DisponibilidadeEntity;
+import org.example.model.entities.DisponibilidadeEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

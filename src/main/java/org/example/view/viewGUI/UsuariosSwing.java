@@ -3,8 +3,8 @@ package org.example.view.viewGUI;
 import org.example.model.repositories.AnotacaoRepository;
 import org.example.model.repositories.IAnotacaoRepository;
 import org.example.control.services.UsuarioService;
-import org.example.model.AnotacaoEntity;
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.AnotacaoEntity;
+import org.example.model.entities.UsuariosEntity;
 
 import javax.persistence.EntityManager;
 import javax.swing.*;

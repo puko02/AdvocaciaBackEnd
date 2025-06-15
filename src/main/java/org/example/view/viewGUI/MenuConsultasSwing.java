@@ -1,7 +1,7 @@
 package org.example.view.viewGUI;
 
-import org.example.model.AgendamentoEntity;
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.AgendamentoEntity;
+import org.example.model.entities.UsuariosEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

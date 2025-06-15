@@ -1,7 +1,7 @@
 package org.example.view.viewGUI;
 
 import org.example.model.repositories.AgendamentoRepository;
-import org.example.model.AgendamentoEntity;
+import org.example.model.entities.AgendamentoEntity;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

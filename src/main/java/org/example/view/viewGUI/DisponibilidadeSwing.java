@@ -1,6 +1,6 @@
 package org.example.view.viewGUI;
 
-import org.example.model.DisponibilidadeEntity;
+import org.example.model.entities.DisponibilidadeEntity;
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
