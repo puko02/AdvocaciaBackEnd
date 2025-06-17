@@ -1,22 +1,21 @@
 package org.example.view.viewGUI;
 
+import org.example.control.services.MenuConsultasController;
 import org.example.model.entities.AgendamentoEntity;
 import org.example.model.entities.UsuariosEntity;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class MenuConsultasSwing extends JFrame {
 
+    private MenuConsultasController controller;
 
     public MenuConsultasSwing(EntityManager em) {
-
+        this.controller = new MenuConsultasController(em);
 
         setTitle("Menu de Consultas");
         setSize(600, 400);
@@ -31,12 +30,7 @@ public class MenuConsultasSwing extends JFrame {
         JButton btnBuscar = new JButton("Buscar");
 
         JButton btnRetornar = new JButton("Retornar");
-        btnRetornar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                dispose();
-            }
-        });
+        btnRetornar.addActionListener(e -> dispose());
 
         topPanel.add(labelEmail);
         topPanel.add(fieldEmail);
@@ -59,27 +53,18 @@ public class MenuConsultasSwing extends JFrame {
 
         btnBuscar.addActionListener(e -> {
             String email = fieldEmail.getText().trim();
+            labelStatus.setText("");
 
             if (email.isEmpty()) {
                 labelStatus.setText("Por favor, digite um e-mail.");
                 return;
             }
 
-            // Limpar tabela anterior
-            tableModel.setRowCount(0);
+            tableModel.setRowCount(0); // Clear table
 
             try {
-                String jpqlUsuario = "SELECT u FROM UsuariosEntity u WHERE u.email = :email";
-                TypedQuery<UsuariosEntity> queryUsuario = em.createQuery(jpqlUsuario, UsuariosEntity.class);
-                queryUsuario.setParameter("email", email);
-
-                UsuariosEntity usuario = queryUsuario.getSingleResult();
-
-                String jpqlAgendamento = "SELECT a FROM AgendamentoEntity a WHERE a.cliente = :usuario ORDER BY a.dataHora DESC";
-                TypedQuery<AgendamentoEntity> queryAgendamentos = em.createQuery(jpqlAgendamento, AgendamentoEntity.class);
-                queryAgendamentos.setParameter("usuario", usuario);
-
-                List<AgendamentoEntity> agendamentos = queryAgendamentos.getResultList();
+                UsuariosEntity usuario = controller.buscarUsuarioPorEmail(email);
+                List<AgendamentoEntity> agendamentos = controller.buscarAgendamentosPorUsuario(usuario);
 
                 if (agendamentos.isEmpty()) {
                     labelStatus.setText("Nenhum agendamento encontrado para o e-mail: " + email);
@@ -95,7 +80,6 @@ public class MenuConsultasSwing extends JFrame {
                         tableModel.addRow(row);
                     }
                 }
-
             } catch (Exception ex) {
                 labelStatus.setText("E-mail não encontrado.");
             }
@@ -108,5 +92,4 @@ public class MenuConsultasSwing extends JFrame {
             frmMenuCon.setVisible(true);
         });
     }
-
 }

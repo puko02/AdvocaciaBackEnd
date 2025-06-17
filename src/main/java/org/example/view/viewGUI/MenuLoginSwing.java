@@ -1,121 +1,105 @@
 package org.example.view.viewGUI;
 
+import org.example.control.services.MenuLoginController;
+
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import org.example.model.entities.UsuariosEntity;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginSwing extends JFrame {
 
-    private static JTextField userField;
-    private static JPasswordField passwordField;
-    private final UsuariosEntity usuariosEntity;
+    private JTextField userField;
+    private JPasswordField passwordField;
+    private JLabel statusLabel;
+    private final MenuLoginController controller;
 
-        public MenuLoginSwing(EntityManager em) {
-            this.usuariosEntity = new UsuariosEntity();
+    public MenuLoginSwing(MenuLoginController controller) {
+        this.controller = controller;
 
-            setSize(500, 300);
-            getContentPane().setLayout(null);
+        setTitle("Menu Login");
+        setSize(500, 300);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-            JPanel titlePanel = new JPanel();
-            titlePanel.setBounds(0, 10, 486, 33);
-            getContentPane().add(titlePanel);
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBounds(0, 10, 486, 33);
+        getContentPane().add(titlePanel);
 
-            JLabel titleLabel = new JLabel("Menu Login");
-            titleLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-            titlePanel.add(titleLabel);
+        JLabel titleLabel = new JLabel("Menu Login");
+        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+        titlePanel.add(titleLabel);
 
-            JPanel loginPanel = new JPanel();
-            loginPanel.setBounds(10, 72, 466, 89);
-            getContentPane().add(loginPanel);
-            loginPanel.setLayout(new GridLayout(0, 2, 0, 0));
+        JPanel loginPanel = new JPanel();
+        loginPanel.setBounds(10, 72, 466, 89);
+        getContentPane().add(loginPanel);
+        loginPanel.setLayout(new GridLayout(0, 2, 0, 0));
 
-            JLabel userLabel = new JLabel("Email do Usuário:");
-            userLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-            loginPanel.add(userLabel);
+        JLabel userLabel = new JLabel("Email do Usuário:");
+        userLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+        loginPanel.add(userLabel);
 
-            userField = new JTextField();
-            userLabel.setLabelFor(userField);
-            userField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-            loginPanel.add(userField);
-            userField.setColumns(10);
+        userField = new JTextField();
+        userLabel.setLabelFor(userField);
+        userField.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        loginPanel.add(userField);
 
-            JLabel passwordLabel = new JLabel("Senha do Usuário: ");
-            passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
-            loginPanel.add(passwordLabel);
+        JLabel passwordLabel = new JLabel("Senha do Usuário:");
+        passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+        loginPanel.add(passwordLabel);
 
-            passwordField = new JPasswordField();
-            passwordLabel.setLabelFor(passwordField);
-            passwordField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-            loginPanel.add(passwordField);
+        passwordField = new JPasswordField();
+        passwordLabel.setLabelFor(passwordField);
+        passwordField.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        loginPanel.add(passwordField);
 
-            JLabel statusLabel = new JLabel("");
-            loginPanel.add(statusLabel);
+        statusLabel = new JLabel("");
+        loginPanel.add(statusLabel);
 
-            JButton btnLogin = new JButton("Login");
-            btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
-            loginPanel.add(btnLogin);
+        JButton btnLogin = new JButton("Login");
+        btnLogin.setFont(new Font("Tahoma", Font.BOLD, 12));
+        loginPanel.add(btnLogin);
 
-            JPanel panel = new JPanel();
-            panel.setBounds(0, 220, 486, 33);
-            getContentPane().add(panel);
+        JPanel panel = new JPanel();
+        panel.setBounds(0, 220, 486, 33);
+        getContentPane().add(panel);
 
-            JButton btnRetornar = new JButton("Retornar");
-            btnRetornar.setFont(new Font("Tahoma", Font.BOLD, 13));
-            btnRetornar.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    dispose();
-                }
-            });
-            panel.add(btnRetornar);
+        JButton btnRetornar = new JButton("Retornar");
+        btnRetornar.setFont(new Font("Tahoma", Font.BOLD, 13));
+        btnRetornar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dispose();
+            }
+        });
+        panel.add(btnRetornar);
 
-            btnLogin.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    String email = userField.getText();
-                    String senha = new String(passwordField.getPassword());
+        btnLogin.addActionListener(e -> realizarLogin());
+    }
 
-                    if (email.isEmpty() || senha.isEmpty()) {
-                        statusLabel.setText("Preencha todos os campos.");
-                        return;
-                    }
+    private void realizarLogin() {
+        String email = userField.getText().trim();
+        String senha = new String(passwordField.getPassword());
 
-                    try {
-                        String jpql = "SELECT u FROM UsuariosEntity u WHERE u.email = :email";
-                        TypedQuery<UsuariosEntity> query = em.createQuery(jpql, UsuariosEntity.class);
-                        query.setParameter("email", email);
-
-                        UsuariosEntity usuario = query.getSingleResult();
-
-                        if (!usuario.isAdmin()) {
-                            statusLabel.setText("Sem permissão administrativa.");
-                            return;
-                        }
-
-                        if (BCrypt.checkpw(senha, usuario.getSenha())) {
-                            statusLabel.setForeground(Color.GREEN);
-                            statusLabel.setText("Acesso permitido!");
-
-                            // Abrir Menu Admin
-                            dispose(); // Fecha a janela de login
-                            MenuAdmin.mostrar(em);
-
-                        } else {
-                            statusLabel.setText("Senha incorreta.");
-                        }
-
-                    } catch (Exception ex) {
-                        statusLabel.setText("E-mail não encontrado.");
-                    }
-                }
-            });
+        if (email.isEmpty() || senha.isEmpty()) {
+            statusLabel.setForeground(Color.RED);
+            statusLabel.setText("Preencha todos os campos.");
+            return;
         }
+
+        String resultado = controller.validarLogin(email, senha);
+
+        if (resultado.equals("sucesso")) {
+            statusLabel.setForeground(Color.GREEN);
+            statusLabel.setText("Acesso permitido!");
+            dispose();
+            controller.abrirMenuAdmin();
+        } else {
+            statusLabel.setForeground(Color.RED);
+            statusLabel.setText(resultado);
+        }
+    }
 
     public static void abrirTela(EntityManager em) {
         SwingUtilities.invokeLater(() -> {
@@ -123,5 +107,4 @@ public class MenuLoginSwing extends JFrame {
             frmMenuLogin.setVisible(true);
         });
     }
-
 }
