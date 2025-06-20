@@ -1,6 +1,6 @@
 package org.example.control.services;
 
-import org.example.model.UsuariosEntity;
+import org.example.model.entities.UsuariosEntity;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
@@ -15,7 +15,6 @@ import jakarta.mail.*;
 import jakarta.mail.internet.*;
 
 import java.util.Properties;
-import java.util.UUID;
 
 public class UsuarioService {
     private final EntityManager em;
@@ -75,7 +74,7 @@ public class UsuarioService {
                 Seu código de verificação é:
             </p>
             <div style="text-align: center; margin: 24px 0;">
-                <span style="display: inline-block; background-color: #007bff; color: #ffffff; font-size: 24px; font-weight: bold; padding: 12px 24px; border-radius: 6px;">
+                <span style="display: inline-block; background-color: #7851b5; color: #ffffff; font-size: 24px; font-weight: bold; padding: 12px 24px; border-radius: 6px;">
                     %s
                 </span>
             </div>
@@ -138,6 +137,17 @@ public class UsuarioService {
                 "FROM UsuariosEntity", UsuariosEntity.class
         );
         return query.getResultList();
+    }
+
+    public void salvarUsuario(UsuariosEntity usuario, String nome, String telefone, String email) {
+        usuario.setNome(nome);
+        usuario.setTelefone(telefone);
+        usuario.setEmail(email);
+        usuario.setSenha("");
+        usuario.setAdmin(false);
+        usuario.setActive(false);
+
+        em.persist(usuario);
     }
 
     public void editarNome(UsuariosEntity usuario, Scanner sc) {
@@ -204,8 +214,6 @@ public class UsuarioService {
         usuario.setActive(!usuario.isActive());
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Active status alterado para: " + (usuario.isAdmin() ? "ATIVO" : "INATIVO") + "\n");
     }
 
     public void excluirUsuario(UsuariosEntity usuario) {

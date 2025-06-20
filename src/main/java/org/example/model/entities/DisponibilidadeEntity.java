@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.entities;
 
 import javax.persistence.*;
 import java.sql.Time;

@@ -1,6 +1,6 @@
-package org.example.control.repositories;
+package org.example.model.config;
 
-import org.example.model.DisponibilidadeEntity;
+import org.example.model.entities.DisponibilidadeEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 

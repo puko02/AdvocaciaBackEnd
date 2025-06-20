@@ -1,4 +1,4 @@
-package org.example.model;
+package org.example.model.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,11 +9,12 @@ import java.util.List;
 public class AgendamentoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_agendamento")
     private Long id;
 
     @ManyToOne
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JoinColumn(name = "id_cliente")
     private UsuariosEntity cliente;
 
@@ -26,6 +27,8 @@ public class AgendamentoEntity {
     private String descricao;
 
     public AgendamentoEntity(String nome, String telefone, String email, LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+        this.status = "pendente";
     }
 
     public AgendamentoEntity() {

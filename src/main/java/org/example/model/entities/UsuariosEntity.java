@@ -1,6 +1,5 @@
-package org.example.model;
+package org.example.model.entities;
 
-import java.security.SecureRandom;
 import javax.persistence.*;
 
 @Entity
