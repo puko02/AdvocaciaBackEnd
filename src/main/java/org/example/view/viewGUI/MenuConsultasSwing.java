@@ -13,7 +13,7 @@ import java.util.List;
 public class MenuConsultasSwing extends JFrame {
 
 
-    private MenuConsultasController controller;
+    private final MenuConsultasController controller;
 
     public MenuConsultasSwing(MenuConsultasController controller) {
         this.controller = controller;
