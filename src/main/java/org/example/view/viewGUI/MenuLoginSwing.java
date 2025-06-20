@@ -9,12 +9,12 @@ import java.awt.event.*;
 
 public class MenuLoginSwing extends JFrame {
 
-    private JTextField userField;
-    private JPasswordField passwordField;
-    private JLabel statusLabel;
+    private final JTextField userField;
+    private final JPasswordField passwordField;
+    private final JLabel statusLabel;
     private final MenuLoginController controller;
 
-    public MenuLoginSwing(MenuLoginController controller) {
+    public MenuLoginSwing(MenuLoginController controller, EntityManager em) {
         this.controller = controller;
 
         setTitle("Menu Login");
@@ -101,9 +101,9 @@ public class MenuLoginSwing extends JFrame {
         }
     }
 
-    public static void abrirTela(EntityManager em) {
+    public static void abrirTela(MenuLoginController controller) {
         SwingUtilities.invokeLater(() -> {
-            MenuLoginSwing frmMenuLogin = new MenuLoginSwing(em);
+            MenuLoginSwing frmMenuLogin = new MenuLoginSwing(controller);
             frmMenuLogin.setVisible(true);
         });
     }

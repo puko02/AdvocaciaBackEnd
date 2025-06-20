@@ -1,5 +1,6 @@
 package org.example.view.viewGUI;
 
+import org.example.control.services.DisponibilidadeController;
 import org.example.view.MenuEditFunction;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,7 @@ public class MenuAdmin extends JFrame {
         JButton btnSair = new JButton("0 - Sair");
 
         // Ações dos botões
-        btnEditarHorario.addActionListener(e -> DisponibilidadeSwing.abrirTela(em));
+        btnEditarHorario.addActionListener(e -> DisponibilidadeSwing.abrirTela(new DisponibilidadeController(em)));
         btnNotasClientes.addActionListener(e -> UsuariosSwing.abrirTela(em));
         btnVerAgendamentos.addActionListener(e -> VisuAgendSwing.abrirTela());
         btnEditarCliente.addActionListener(e -> MenuEditSwing.mostrar(em));

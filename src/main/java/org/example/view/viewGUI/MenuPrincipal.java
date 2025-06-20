@@ -1,5 +1,7 @@
 package org.example.view.viewGUI;
 
+import org.example.control.services.MenuConsultasController;
+import org.example.control.services.MenuLoginController;
 import org.example.model.entities.UsuariosEntity;
 import org.example.view.viewConsole.Agendamento;
 
@@ -34,7 +36,7 @@ public class MenuPrincipal extends JFrame {
 
         // Ações dos botões
         btnLogin.addActionListener(e -> {
-            MenuLoginSwing.abrirTela(em);
+            MenuLoginSwing.abrirTela(new MenuLoginController(em));
         });
 
         btnAgendamento.addActionListener(e -> {
@@ -52,7 +54,7 @@ public class MenuPrincipal extends JFrame {
         });
 
         btnConsultas.addActionListener(e -> {
-            MenuConsultasSwing.abrirTela(em);
+            MenuConsultasSwing.abrirTela(new MenuConsultasController(em));
         });
 
         btnSair.addActionListener(e -> {

@@ -167,9 +167,9 @@ public class DisponibilidadeSwing extends JFrame {
         }
     }
 
-    public static void abrirTela(EntityManager em) {
+    public static void abrirTela(DisponibilidadeController controller) {
         SwingUtilities.invokeLater(() -> {
-            DisponibilidadeSwing frm = new DisponibilidadeSwing(em);
+            DisponibilidadeSwing frm = new DisponibilidadeSwing(controller);
             frm.setVisible(true);
         });
     }

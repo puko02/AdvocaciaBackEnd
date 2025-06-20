@@ -86,9 +86,9 @@ public class MenuConsultasSwing extends JFrame {
         });
     }
 
-    public static void abrirTela(EntityManager em) {
+    public static void abrirTela(MenuConsultasController controller) {
         SwingUtilities.invokeLater(() -> {
-            MenuConsultasSwing frmMenuCon = new MenuConsultasSwing(em);
+            MenuConsultasSwing frmMenuCon = new MenuConsultasSwing(controller);
             frmMenuCon.setVisible(true);
         });
     }
