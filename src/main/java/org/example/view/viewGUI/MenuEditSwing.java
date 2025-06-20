@@ -3,6 +3,9 @@ package org.example.view.viewGUI;
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
+
+import org.example.control.services.UsuarioService;
+import org.example.model.entities.UsuariosEntity;
 import org.example.view.viewGUI.MenuAdmin;
 
 public class MenuEditSwing extends JFrame {
@@ -13,10 +16,14 @@ public class MenuEditSwing extends JFrame {
     private JLabel lblTitulo, lblEmailInfo, lblNome, lblTelefone, lblSenha;
     private JPanel panelDados, panelBotoes, panel;
     private EntityManager em;
+    private UsuariosEntity usuario;
+    private UsuarioService usuarioService;
 
-    public MenuEditSwing(EntityManager em) {
+    public MenuEditSwing(EntityManager em, UsuariosEntity usuario) {
         super("Menu de Edição de Usuário");
+        this.usuario = usuario;
         this.em = em;
+        this.usuarioService = new UsuarioService(em);
         configurarJanela();
         inicializarComponentes();
         montarLayout();
@@ -40,9 +47,9 @@ public class MenuEditSwing extends JFrame {
         lblEmailInfo = new JLabel("Dados atuais do usuário de email: teste@email.com", SwingConstants.CENTER);
         lblEmailInfo.setBounds(44, 55, 296, 22);
 
-        lblNome = new JLabel("Nome: João Felini");
-        lblTelefone = new JLabel("Telefone: 45999998888");
-        lblSenha = new JLabel("Senha: senha");
+        lblNome = new JLabel("Nome: " + usuario.getNome());
+        lblTelefone = new JLabel("Telefone: " + usuario.getTelefone());
+        lblSenha = new JLabel("Senha: " + usuario.getSenha());
 
         // Painel dados
         panelDados = new JPanel();
@@ -106,10 +113,21 @@ public class MenuEditSwing extends JFrame {
         panel.add(lblPermissao);
         panel.add(rbtnAdmin);
         panel.add(rbtnUsuarioComum);
+        if (usuario.isAdmin()) {
+            rbtnAdmin.setSelected(true);
+        } else {
+            rbtnUsuarioComum.setSelected(true);
+        }
+
         panel.add(lblStatus);
         panel.add(rbtnAtivo);
         panel.add(Box.createHorizontalStrut(20));
         panel.add(rbtnInativo);
+        if (usuario.isActive()) {
+            rbtnAtivo.setSelected(true);
+        } else {
+            rbtnInativo.setSelected(true);
+        }
     }
 
     private void montarLayout() {
@@ -126,18 +144,44 @@ public class MenuEditSwing extends JFrame {
     }
 
     private void adicionarListeners() {
-        // Aqui você pode adicionar os listeners reais
         btnEditarNome.addActionListener(e -> System.out.println("Editar nome clicado"));
         btnEditarTelefone.addActionListener(e -> System.out.println("Editar telefone clicado"));
         btnEditarSenha.addActionListener(e -> System.out.println("Editar senha clicado"));
         btnExcluir.addActionListener(e -> System.out.println("Excluir clicado"));
+        rbtnAdmin.addItemListener(e -> {
+            if (rbtnAdmin.isSelected() && !usuario.isAdmin()) {
+                JOptionPane.showMessageDialog(this, "Permissão alterada para ADMIN!");
+                usuarioService.editarIsAdmin(usuario);
+            }
+        });
+
+        rbtnUsuarioComum.addItemListener(e -> {
+            if (rbtnUsuarioComum.isSelected() && usuario.isAdmin()) {
+                JOptionPane.showMessageDialog(this, "Permissão alterada para USUÁRIO COMUM!");
+                usuarioService.editarIsAdmin(usuario);
+            }
+        });
+
+        rbtnAtivo.addItemListener(e -> {
+            if (rbtnAtivo.isSelected() && !usuario.isActive()) {
+                JOptionPane.showMessageDialog(this, "Status alterado para ATIVO!");
+                usuarioService.editarIsActive(usuario);
+            }
+        });
+
+        rbtnInativo.addItemListener(e -> {
+            if (rbtnInativo.isSelected() && usuario.isActive()) {
+                JOptionPane.showMessageDialog(this, "Status alterado para INATIVO!");
+                usuarioService.editarIsActive(usuario);
+            }
+        });
         btnVoltar.addActionListener(e -> {
             dispose();
             System.out.println("Voltar clidado");
         });
     }
 
-    public static void mostrar(EntityManager em) {
-        SwingUtilities.invokeLater(() -> new MenuEditSwing(em));
+    public static void mostrar(EntityManager em, UsuariosEntity usuario) {
+        SwingUtilities.invokeLater(() -> new MenuEditSwing(em, usuario));
     }
 }

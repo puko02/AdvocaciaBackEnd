@@ -69,17 +69,19 @@ public class AvisoConsultaEmailSwing extends JDialog {
                     return;
                 }
 
+                if (!email.contains("@")){
+                    JOptionPane.showMessageDialog(this, "Digite um e-mail valido", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 Optional<UsuariosEntity> existente = usuarioService.buscarPorEmail(email);
 
                 if (existente.isEmpty()) {
-
                     UsuariosEntity usuario = new UsuariosEntity();
-                    System.out.println(usuario);
                     try {
                         em.getTransaction().begin();
                         usuarioService.salvarUsuario(usuario, "", "", email);
                         em.getTransaction().commit();
-                        System.out.println(usuario);
                     } catch (Exception ex) {
                         em.getTransaction().rollback();
                         JOptionPane.showMessageDialog(this, "Erro ao salvar usuário: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

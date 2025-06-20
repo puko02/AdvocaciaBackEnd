@@ -1,6 +1,7 @@
 package org.example.view.viewGUI;
 
 import org.example.control.services.DisponibilidadeController;
+import org.example.model.entities.UsuariosEntity;
 import org.example.view.MenuEditFunction;
 
 import javax.persistence.EntityManager;
@@ -28,7 +29,12 @@ public class MenuAdmin extends JFrame {
         btnEditarHorario.addActionListener(e -> DisponibilidadeSwing.abrirTela(new DisponibilidadeController(em)));
         btnNotasClientes.addActionListener(e -> UsuariosSwing.abrirTela(em));
         btnVerAgendamentos.addActionListener(e -> VisuAgendSwing.abrirTela());
-        btnEditarCliente.addActionListener(e -> MenuEditSwing.mostrar(em));
+        btnEditarCliente.addActionListener(e -> {
+            UsuariosEntity usuario = AvisoConsultaEmailSwing.solicitarEmail(em);
+            if (usuario != null){
+                MenuEditSwing.mostrar(em, usuario);
+            }
+        });
         btnSair.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Retornando...");
             dispose(); // Fecha a janela

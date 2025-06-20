@@ -205,8 +205,6 @@ public class UsuarioService {
         usuario.setAdmin(!usuario.isAdmin());
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Admin status alterado para: " + (usuario.isAdmin() ? "ADMIN" : "USUÁRIO COMUM") + "\n");
     }
 
     public void editarIsActive(UsuariosEntity usuario) {

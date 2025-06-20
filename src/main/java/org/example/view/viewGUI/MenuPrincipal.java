@@ -43,13 +43,8 @@ public class MenuPrincipal extends JFrame {
 
             System.out.println("Executado com sucesso");
             UsuariosEntity usuario = AvisoConsultaEmailSwing.solicitarEmail(em);
-
-            VerificacaoEmailSwing.mostrar(usuario, em);
-
             if (usuario != null) {
                 CadastroSwing.mostrar(em, usuario);
-            } else {
-                System.out.println("Usuário não informado ou operação cancelada.");
             }
         });
 
@@ -58,8 +53,8 @@ public class MenuPrincipal extends JFrame {
         });
 
         btnSair.addActionListener(e -> {
-            em.close(); // Fecha o EntityManager
-            dispose();// Fecha a janela Swing
+            em.close();
+            dispose();
             System.exit(0);
         });
     }

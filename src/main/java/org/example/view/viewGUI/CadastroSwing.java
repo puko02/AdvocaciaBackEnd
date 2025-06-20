@@ -28,8 +28,6 @@ public class CadastroSwing extends JFrame {
         montarLayout();
         adicionarListeners();
         setVisible(true);
-        System.out.println(usuario + "\nUsuario excluido com sucesso");
-        usuarioService.excluirUsuario(usuario);
     }
 
     private void configurarJanela() {
@@ -97,20 +95,16 @@ public class CadastroSwing extends JFrame {
             } catch (Exception ex){
                 em.getTransaction().rollback();
                 JOptionPane.showMessageDialog(this, "Erro ao salvar usuário: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                usuarioService.excluirUsuario(usuario);
             }
-
-            JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
         });
 
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
-                // Se o usuário não preencher os campos, o usuário será excluído
                 if ((nomeField.getText().trim().isEmpty() || telefoneField.getText().trim().isEmpty()) && usuario.getId() != null) {
                     usuarioService.excluirUsuario(usuario);
-                    System.out.println("Usuário excluído porque não finalizou o cadastro.");
                 }
             }
         });
