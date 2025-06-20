@@ -27,7 +27,7 @@ public class MenuAdmin extends JFrame {
         btnEditarHorario.addActionListener(e -> DisponibilidadeSwing.abrirTela(em));
         btnNotasClientes.addActionListener(e -> UsuariosSwing.abrirTela(em));
         btnVerAgendamentos.addActionListener(e -> VisuAgendSwing.abrirTela());
-        btnEditarCliente.addActionListener(e -> MenuEditFunction.MenuEditarCliente(em));
+        btnEditarCliente.addActionListener(e -> MenuEditSwing.mostrar(em));
         btnSair.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, "Retornando...");
             dispose(); // Fecha a janela

@@ -139,6 +139,17 @@ public class UsuarioService {
         return query.getResultList();
     }
 
+    public void salvarUsuario(UsuariosEntity usuario, String nome, String telefone, String email) {
+        usuario.setNome(nome);
+        usuario.setTelefone(telefone);
+        usuario.setEmail(email);
+        usuario.setSenha("");
+        usuario.setAdmin(false);
+        usuario.setActive(false);
+
+        em.persist(usuario);
+    }
+
     public void editarNome(UsuariosEntity usuario, Scanner sc) {
         System.out.println("Deseja alterar para qual nome?");
         String nomeNovo = sc.nextLine();
@@ -203,8 +214,6 @@ public class UsuarioService {
         usuario.setActive(!usuario.isActive());
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Active status alterado para: " + (usuario.isAdmin() ? "ATIVO" : "INATIVO") + "\n");
     }
 
     public void excluirUsuario(UsuariosEntity usuario) {

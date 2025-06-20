@@ -1,5 +1,6 @@
 package org.example.view.viewGUI;
 
+import org.example.model.entities.UsuariosEntity;
 import org.example.view.viewConsole.Agendamento;
 
 import javax.persistence.EntityManager;
@@ -37,7 +38,17 @@ public class MenuPrincipal extends JFrame {
         });
 
         btnAgendamento.addActionListener(e -> {
-            Agendamento.fazerAgendamento(em);
+
+            System.out.println("Executado com sucesso");
+            UsuariosEntity usuario = AvisoConsultaEmailSwing.solicitarEmail(em);
+
+            VerificacaoEmailSwing.mostrar(usuario, em);
+
+            if (usuario != null) {
+                CadastroSwing.mostrar(em, usuario);
+            } else {
+                System.out.println("Usuário não informado ou operação cancelada.");
+            }
         });
 
         btnConsultas.addActionListener(e -> {
