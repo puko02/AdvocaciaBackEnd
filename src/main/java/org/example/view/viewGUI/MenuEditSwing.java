@@ -3,6 +3,7 @@ package org.example.view.viewGUI;
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
+import org.example.view.viewGUI.MenuAdmin;
 
 public class MenuEditSwing extends JFrame {
 
@@ -11,8 +12,11 @@ public class MenuEditSwing extends JFrame {
     private JRadioButton rbtnAdmin, rbtnUsuarioComum, rbtnAtivo, rbtnInativo;
     private JLabel lblTitulo, lblEmailInfo, lblNome, lblTelefone, lblSenha;
     private JPanel panelDados, panelBotoes, panel;
+    private EntityManager em;
+
     public MenuEditSwing(EntityManager em) {
         super("Menu de Edição de Usuário");
+        this.em = em;
         configurarJanela();
         inicializarComponentes();
         montarLayout();
@@ -22,7 +26,7 @@ public class MenuEditSwing extends JFrame {
 
     private void configurarJanela() {
         setSize(400, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
     }
@@ -127,7 +131,10 @@ public class MenuEditSwing extends JFrame {
         btnEditarTelefone.addActionListener(e -> System.out.println("Editar telefone clicado"));
         btnEditarSenha.addActionListener(e -> System.out.println("Editar senha clicado"));
         btnExcluir.addActionListener(e -> System.out.println("Excluir clicado"));
-        btnVoltar.addActionListener(e -> System.out.println("Voltar clidado"));
+        btnVoltar.addActionListener(e -> {
+            dispose();
+            System.out.println("Voltar clidado");
+        });
     }
 
     public static void mostrar(EntityManager em) {
