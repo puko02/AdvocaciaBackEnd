@@ -12,10 +12,11 @@ import java.util.List;
 
 public class MenuConsultasSwing extends JFrame {
 
+
     private MenuConsultasController controller;
 
-    public MenuConsultasSwing(EntityManager em) {
-        this.controller = new MenuConsultasController(em);
+    public MenuConsultasSwing(MenuConsultasController controller) {
+        this.controller = controller;
 
         setTitle("Menu de Consultas");
         setSize(600, 400);

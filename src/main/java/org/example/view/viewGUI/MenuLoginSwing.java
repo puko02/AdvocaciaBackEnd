@@ -14,7 +14,7 @@ public class MenuLoginSwing extends JFrame {
     private final JLabel statusLabel;
     private final MenuLoginController controller;
 
-    public MenuLoginSwing(MenuLoginController controller, EntityManager em) {
+    public MenuLoginSwing(MenuLoginController controller) {
         this.controller = controller;
 
         setTitle("Menu Login");
