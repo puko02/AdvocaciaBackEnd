@@ -24,7 +24,6 @@ public class DisponibilidadeController {
             repo.atualizarDisponibilidade(id, horaInicio, horaFim, isDiaTodo, isBloqueado);
             return true;
         } catch (Exception e) {
-            System.out.println("Erro ao atualizar disponibilidade: " + e.getMessage());
             return false;
         }
     }

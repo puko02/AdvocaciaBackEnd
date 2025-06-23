@@ -40,10 +40,7 @@ public class UsuarioService {
         em.getTransaction().begin();
         usuario.setConfirmcode(novoToken);
         em.merge(usuario);
-        em.getTransaction().commit();
-
-        System.out.println("Token de confirmação gerado e salvo: ");
-    }
+        em.getTransaction().commit();}
 
     public void enviarTokenEmail(String emailDestino) {
         Optional<UsuariosEntity> opt = buscarPorEmail(emailDestino);
@@ -214,7 +211,6 @@ public class UsuarioService {
         EntityTransaction transaction = em.getTransaction();
 
         if (usuario.isAdmin()) {
-            System.out.println("Erro: não é permitido excluir um usuário com status de ADMIN.");
             return;
         }
 
@@ -232,10 +228,8 @@ public class UsuarioService {
             em.remove(usuario);
 
             transaction.commit();
-            System.out.println("Usuário excluído com sucesso.");
         } catch (Exception e) {
             transaction.rollback();
-            System.out.println("Erro ao excluir usuário: " + e.getMessage());
         }
     }
 

@@ -41,11 +41,10 @@ public class AnotacaoRepository implements IAnotacaoRepository {
                 anotacao.setNota(conteudo);
                 anotacao.setDataCriacao(LocalDateTime.now());
                 session.save(anotacao);
-            } else {
-                System.out.println("Cliente não encontrado.");
             }
 
             transaction.commit();
+
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
