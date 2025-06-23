@@ -1,8 +1,7 @@
-package org.example.view.viewGUI;
+package org.example.view;
 
 import org.example.control.services.MenuLoginController;
 
-import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

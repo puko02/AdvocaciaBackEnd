@@ -1,10 +1,8 @@
-package org.example.view.viewGUI;
+package org.example.view;
 
 import org.example.control.services.MenuConsultasController;
 import org.example.control.services.MenuLoginController;
 import org.example.model.entities.UsuariosEntity;
-import org.example.view.viewConsole.Agendamento;
-
 import javax.persistence.EntityManager;
 import java.awt.*;
 import javax.swing.*;

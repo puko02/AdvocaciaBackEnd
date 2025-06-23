@@ -1,9 +1,7 @@
-package org.example.view.viewGUI;
+package org.example.view;
 
 import org.example.control.services.DisponibilidadeController;
 import org.example.model.entities.UsuariosEntity;
-import org.example.view.MenuEditFunction;
-
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;

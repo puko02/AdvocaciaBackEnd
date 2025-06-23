@@ -1,4 +1,4 @@
-package org.example.view.viewGUI;
+package org.example.view;
 
 import javax.persistence.EntityManager;
 import javax.swing.*;

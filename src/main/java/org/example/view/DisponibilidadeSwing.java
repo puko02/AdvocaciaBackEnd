@@ -1,9 +1,8 @@
-package org.example.view.viewGUI;
+package org.example.view;
 
 import org.example.control.services.DisponibilidadeController;
 import org.example.model.entities.DisponibilidadeEntity;
 
-import javax.persistence.EntityManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;

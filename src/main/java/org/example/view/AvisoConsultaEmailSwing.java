@@ -1,4 +1,4 @@
-package org.example.view.viewGUI;
+package org.example.view;
 
 import org.example.control.services.UsuarioService;
 import org.example.model.entities.UsuariosEntity;

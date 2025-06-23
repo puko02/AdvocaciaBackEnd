@@ -1,7 +1,7 @@
 package org.example.control.services;
 
 import org.example.model.entities.UsuariosEntity;
-import org.example.view.viewGUI.MenuAdmin;
+import org.example.view.MenuAdmin;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 public class MenuLoginController {
