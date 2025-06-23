@@ -47,13 +47,13 @@ public class MenuEditFunction {
 
             switch (option) {
                 case 1:
-                    usuarioService.editarNome(usuario, sc);
+                    //usuarioService.editarNome(usuario, sc);
                 break;
                 case 2:
-                    usuarioService.editarTelefone(usuario, sc);
+                    //usuarioService.editarTelefone(usuario, sc);
                 break;
                 case 3:
-                    usuarioService.editarSenha(usuario, sc);
+                    //usuarioService.editarSenha(usuario, sc);
                 break;
                 case 4:
                     usuarioService.editarIsAdmin(usuario);

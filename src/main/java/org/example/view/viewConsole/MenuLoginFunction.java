@@ -5,7 +5,6 @@ import javax.persistence.TypedQuery;
 import java.util.Scanner;
 import org.example.model.entities.UsuariosEntity;
 import org.example.view.viewGUI.MenuAdmin;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class MenuLoginFunction {
     public static void Menulogin(EntityManager em, Scanner sc) {
@@ -32,7 +31,7 @@ public class MenuLoginFunction {
         }
 
         System.out.println("Digite a senha: ");
-        if (BCrypt.checkpw(sc.nextLine(), usuario.getSenha())) {
+        if (sc.nextLine().equals(usuario.getSenha())) {
             System.out.println("Acesso permitido!\n\n");
             MenuAdmin.mostrar(em);
         } else {

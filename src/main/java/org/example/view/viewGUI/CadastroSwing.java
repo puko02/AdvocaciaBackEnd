@@ -7,9 +7,10 @@ import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
 
-public class CadastroSwing extends JFrame {
+public class CadastroSwing extends JDialog {
     private EntityManager em;
     private UsuariosEntity usuario;
+    private UsuariosEntity usuarioRetorno;
     private UsuarioService usuarioService;
 
     private JLabel lblTitulo, lblEmailNaoEncontrado, lblAviso;
@@ -17,7 +18,7 @@ public class CadastroSwing extends JFrame {
     private JButton btnEnviar;
 
     public CadastroSwing(EntityManager em, UsuariosEntity usuario) {
-        super("Cadastro");
+        super((Frame) null, "Cadastro", true);
         this.em = em;
         this.usuario = usuario;
         this.usuarioService = new UsuarioService(em);
@@ -27,7 +28,6 @@ public class CadastroSwing extends JFrame {
         inicializarComponentes();
         montarLayout();
         adicionarListeners();
-        setVisible(true);
     }
 
     private void configurarJanela() {
@@ -88,14 +88,17 @@ public class CadastroSwing extends JFrame {
             usuario.setTelefone(telefone);
             try {
                 em.getTransaction().begin();
+
                 usuarioService.salvarUsuario(usuario, nome, telefone, usuario.getEmail());
                 em.getTransaction().commit();
+                usuarioRetorno = usuario;
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } catch (Exception ex){
                 em.getTransaction().rollback();
                 JOptionPane.showMessageDialog(this, "Erro ao salvar usuário: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 usuarioService.excluirUsuario(usuario);
+                usuarioRetorno = usuario;
             }
         });
 
@@ -110,7 +113,10 @@ public class CadastroSwing extends JFrame {
         });
     }
 
-    public static void mostrar(EntityManager em, UsuariosEntity usuario) {
-        SwingUtilities.invokeLater(() -> new CadastroSwing(em, usuario));
+    public static UsuariosEntity RealizarCadastro(EntityManager em, UsuariosEntity usuario) {
+        CadastroSwing dialog = new CadastroSwing(em, usuario);
+        dialog.setVisible(true);
+        return dialog.usuarioRetorno;
     }
+
 }

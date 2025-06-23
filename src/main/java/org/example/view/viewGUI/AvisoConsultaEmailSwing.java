@@ -88,14 +88,13 @@ public class AvisoConsultaEmailSwing extends JDialog {
                         return;
                     }
                     usuarioRetorno = usuario;
+                    JOptionPane.showMessageDialog(this, "E-mail não encontrado. Novo usuário criado.", "Usuário não encontrado", JOptionPane.WARNING_MESSAGE);
                     dispose();
-
-                    JOptionPane.showMessageDialog(this, "E-mail não encontrado.", "Usuário não encontrado", JOptionPane.WARNING_MESSAGE);
-                }
-                else {
+                } else {
                     usuarioRetorno = existente.get();
                     dispose();
                 }
+
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao buscar e-mail: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 ex.printStackTrace();

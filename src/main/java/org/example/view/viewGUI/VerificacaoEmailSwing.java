@@ -20,18 +20,17 @@ public class VerificacaoEmailSwing extends JFrame {
 
     private int tentativasRestantes = 3;
 
-    public VerificacaoEmailSwing(UsuariosEntity usuario, EntityManager em) {
+    public VerificacaoEmailSwing(EntityManager em, UsuariosEntity usuario) {
         super("Confirmação de E-mail");
         this.usuario = usuario;
         this.em = em;
         this.usuarioService = new UsuarioService(em);
 
-        usuarioService.atualizarTokenConfirmacao(usuario);
-        usuarioService.enviarTokenEmail(usuario.getEmail());
-
         configurarJanela();
         inicializarComponentes();
         montarLayout();
+        usuarioService.atualizarTokenConfirmacao(usuario);
+        usuarioService.enviarTokenEmail(usuario.getEmail());
         adicionarListeners();
         setVisible(true);
     }
@@ -95,8 +94,6 @@ public class VerificacaoEmailSwing extends JFrame {
 
     private void adicionarListeners() {
         btnVerificar.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(this, "Token verificado com sucesso!");
-
             try {
                 String tokenDigitado = txtToken.getText().trim();
 
@@ -109,7 +106,9 @@ public class VerificacaoEmailSwing extends JFrame {
                 if (tokenDigitado.equals(usuario.getConfirmcode())) {
                     usuarioService.editarIsActive(usuario);
                     usuario.setConfirmcode(null);
+
                     dispose();
+                    AgendamentoSwing.mostrar(em, usuario);
                 } else {
                     tentativasRestantes--;
                     lblTentativas.setText("Tentativas restantes: " + tentativasRestantes);
@@ -130,7 +129,7 @@ public class VerificacaoEmailSwing extends JFrame {
         btnVoltar.addActionListener(e -> dispose());
     }
 
-    public static void mostrar(UsuariosEntity usuario, EntityManager em) {
-        SwingUtilities.invokeLater(() -> new VerificacaoEmailSwing(usuario, em));
+    public static void mostrar(EntityManager em, UsuariosEntity usuario) {
+        SwingUtilities.invokeLater(() -> new VerificacaoEmailSwing(em, usuario));
     }
 }

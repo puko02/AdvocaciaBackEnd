@@ -40,13 +40,26 @@ public class MenuPrincipal extends JFrame {
         });
 
         btnAgendamento.addActionListener(e -> {
-
-            System.out.println("Executado com sucesso");
             UsuariosEntity usuario = AvisoConsultaEmailSwing.solicitarEmail(em);
-            if (usuario != null) {
-                CadastroSwing.mostrar(em, usuario);
+            if (usuario == null) return;
+
+            if (usuario.getNome().isEmpty() || usuario.getTelefone().isEmpty()) {
+                usuario = CadastroSwing.RealizarCadastro(em, usuario);
+            }
+            if (usuario == null) return;
+
+            if (!usuario.isActive()) {
+                JOptionPane.showMessageDialog(this, "Enviando token de validação para seu e-mail. Aguarde...", "Validação de e-mail", JOptionPane.INFORMATION_MESSAGE);
+                VerificacaoEmailSwing.mostrar(em, usuario);
+            }
+            else{
+                AgendamentoSwing.mostrar(em,usuario);
             }
         });
+
+
+
+
 
         btnConsultas.addActionListener(e -> {
             MenuConsultasSwing.abrirTela(new MenuConsultasController(em));

@@ -4,8 +4,6 @@ import org.example.model.entities.UsuariosEntity;
 import org.example.view.viewGUI.MenuAdmin;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import org.mindrot.jbcrypt.BCrypt;
-
 public class MenuLoginController {
 
     private final EntityManager em;
@@ -26,7 +24,7 @@ public class MenuLoginController {
                 return "Sem permissão administrativa.";
             }
 
-            if (BCrypt.checkpw(senha, usuario.getSenha())) {
+            if (senha.equals(usuario.getSenha())) {
                 return "sucesso";
             } else {
                 return "Senha incorreta.";

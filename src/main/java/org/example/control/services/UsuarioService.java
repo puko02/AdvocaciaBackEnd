@@ -1,7 +1,6 @@
 package org.example.control.services;
 
 import org.example.model.entities.UsuariosEntity;
-import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -113,12 +112,9 @@ public class UsuarioService {
             message.setContent(corpoHtml, "text/html; charset=UTF-8");
 
             Transport.send(message);
-            System.out.println("E-mail de verificação enviado para " + emailDestino);
 
         } catch (MessagingException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao enviar e-mail.");
-        }
+            e.printStackTrace();}
     }
 
 
@@ -150,69 +146,69 @@ public class UsuarioService {
         em.persist(usuario);
     }
 
-    public void editarNome(UsuariosEntity usuario, Scanner sc) {
-        System.out.println("Deseja alterar para qual nome?");
-        String nomeNovo = sc.nextLine();
+
+    public void editarNome(UsuariosEntity usuario, String nomeNovo) {
+        if (nomeNovo == null || nomeNovo.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome não pode ser vazio.");
+        }
         if (nomeNovo.length() > 200) {
-            System.out.println("ERRO: O nome não pode ter mais de 200 caractéres\n");
-            return;
+            throw new IllegalArgumentException("ERRO: O nome não pode ter mais de 200 caracteres.");
         }
 
         em.getTransaction().begin();
         usuario.setNome(nomeNovo);
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Nome alterado para: " + nomeNovo + "\n");
     }
 
-    public void editarTelefone(UsuariosEntity usuario, Scanner sc) {
-        System.out.println("Deseja alterar para qual número de telefone? (11 dígitos)");
-        String telefoneNovo = sc.nextLine();
-        if (telefoneNovo.length() > 11 || telefoneNovo.length() < 10) {
-            System.out.println("ERRO: O número deve ter entre 10 e 11 dígitos\n");
-            return;
+    public void editarTelefone(UsuariosEntity usuario, String telefoneNovo) {
+        if (telefoneNovo == null || telefoneNovo.trim().isEmpty()) {
+            throw new IllegalArgumentException("O telefone não pode ser vazio.");
+        }
+        // Verifica se contém apenas dígitos
+        if (!telefoneNovo.matches("\\d+")) {
+            throw new IllegalArgumentException("ERRO: O telefone deve conter apenas números.");
+        }
+        if (telefoneNovo.length() < 10 || telefoneNovo.length() > 11) {
+            throw new IllegalArgumentException("ERRO: O número deve ter entre 10 e 11 dígitos.");
         }
 
         em.getTransaction().begin();
         usuario.setTelefone(telefoneNovo);
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Telefone alterado para: " + telefoneNovo + "\n");
     }
 
-    public void editarSenha(UsuariosEntity usuario, Scanner sc) {
-        System.out.println("Deseja alterar para qual senha?");
-        String senhaNova = sc.nextLine();
-        if (BCrypt.checkpw(senhaNova, usuario.getSenha())) {
-            System.out.println("ERRO: A nova senha não pode ser igual à atual!\n");
-            return;
+    public void editarSenha(UsuariosEntity usuario, String senhaNova) {
+        if (senhaNova == null || senhaNova.trim().isEmpty()) {
+            throw new IllegalArgumentException("A senha não pode ser vazia.");
         }
 
-        String senhaHashed = BCrypt.hashpw(senhaNova, BCrypt.gensalt());
+        if (senhaNova.equals(usuario.getSenha())) {
+            throw new IllegalArgumentException("ERRO: A nova senha não pode ser igual à atual!");
+        }
+
 
         em.getTransaction().begin();
-        usuario.setSenha(senhaHashed);
+        usuario.setSenha(senhaNova);
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Senha alterada com sucesso.\n");
     }
 
     public void editarIsAdmin(UsuariosEntity usuario) {
         em.getTransaction().begin();
-        usuario.setAdmin(!usuario.isAdmin());
+        usuario.setAdmin(!usuario.isAdmin()); // Inverte o status de admin
         em.merge(usuario);
         em.getTransaction().commit();
     }
 
     public void editarIsActive(UsuariosEntity usuario) {
         em.getTransaction().begin();
-        usuario.setActive(!usuario.isActive());
+        usuario.setActive(!usuario.isActive()); // Inverte o status de ativo
         em.merge(usuario);
         em.getTransaction().commit();
     }
+
 
     public void excluirUsuario(UsuariosEntity usuario) {
         EntityTransaction transaction = em.getTransaction();
@@ -225,17 +221,14 @@ public class UsuarioService {
         try {
             transaction.begin();
 
-            // Exclui anotações vinculadas
             em.createQuery("DELETE FROM AnotacaoEntity a WHERE a.cliente.id = :id")
                     .setParameter("id", usuario.getId())
                     .executeUpdate();
 
-            // Exclui agendamentos vinculados
             em.createQuery("DELETE FROM AgendamentoEntity a WHERE a.cliente.id = :id")
                     .setParameter("id", usuario.getId())
                     .executeUpdate();
 
-            // Remove o usuário
             em.remove(usuario);
 
             transaction.commit();
