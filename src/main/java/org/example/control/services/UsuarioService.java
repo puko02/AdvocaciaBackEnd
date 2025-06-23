@@ -1,7 +1,6 @@
 package org.example.control.services;
 
-import org.example.model.UsuariosEntity;
-import org.mindrot.jbcrypt.BCrypt;
+import org.example.model.entities.UsuariosEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -15,7 +14,6 @@ import jakarta.mail.*;
 import jakarta.mail.internet.*;
 
 import java.util.Properties;
-import java.util.UUID;
 
 public class UsuarioService {
     private final EntityManager em;
@@ -58,9 +56,41 @@ public class UsuarioService {
         String senhaApp = "oktc btui lbdb lahi";
 
         String assunto = "Código de Verificação";
-        String corpo = "Olá, " + usuario.getNome() +
-                "\n\nSeu código de verificação é: " + token +
-                "\n\nUse este código para ativar sua conta.";
+        String corpoHtml = """
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head><meta charset="UTF-8"><title>Confirmação de E-mail</title></head>
+    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #333333;">Confirmação de E-mail</h2>
+            <p style="font-size: 16px; color: #555555;">
+                Olá, <strong>%s</strong>,
+            </p>
+            <p style="font-size: 16px; color: #555555;">
+                Recebemos uma solicitação para verificar o seu endereço de e-mail.
+            </p>
+            <p style="font-size: 16px; color: #555555;">
+                Seu código de verificação é:
+            </p>
+            <div style="text-align: center; margin: 24px 0;">
+                <span style="display: inline-block; background-color: #7851b5; color: #ffffff; font-size: 24px; font-weight: bold; padding: 12px 24px; border-radius: 6px;">
+                    %s
+                </span>
+            </div>
+            <p style="font-size: 16px; color: #555555;">
+                Insira esse código no sistema para ativar sua conta.
+            </p>
+            <p style="font-size: 14px; color: #999999;">
+                Se você não solicitou essa verificação, ignore este e-mail.
+            </p>
+            <p style="font-size: 14px; color: #999999; margin-top: 30px;">
+                Atenciosamente,<br>
+                Equipe de Suporte
+            </p>
+        </div>
+    </body>
+    </html>
+""".formatted(usuario.getNome(), token);
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -79,15 +109,12 @@ public class UsuarioService {
             message.setFrom(new InternetAddress(remetente));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailDestino));
             message.setSubject(assunto);
-            message.setText(corpo);
+            message.setContent(corpoHtml, "text/html; charset=UTF-8");
 
             Transport.send(message);
-            System.out.println("E-mail de verificação enviado para " + emailDestino);
 
         } catch (MessagingException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao enviar e-mail.");
-        }
+            e.printStackTrace();}
     }
 
 
@@ -108,64 +135,80 @@ public class UsuarioService {
         return query.getResultList();
     }
 
-    public void editarNome(UsuariosEntity usuario, Scanner sc) {
-        System.out.println("Deseja alterar para qual nome?");
-        String nomeNovo = sc.nextLine();
+    public void salvarUsuario(UsuariosEntity usuario, String nome, String telefone, String email) {
+        usuario.setNome(nome);
+        usuario.setTelefone(telefone);
+        usuario.setEmail(email);
+        usuario.setSenha("");
+        usuario.setAdmin(false);
+        usuario.setActive(false);
+
+        em.persist(usuario);
+    }
+
+
+    public void editarNome(UsuariosEntity usuario, String nomeNovo) {
+        if (nomeNovo == null || nomeNovo.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome não pode ser vazio.");
+        }
         if (nomeNovo.length() > 200) {
-            System.out.println("ERRO: O nome não pode ter mais de 200 caractéres\n");
-            return;
+            throw new IllegalArgumentException("ERRO: O nome não pode ter mais de 200 caracteres.");
         }
 
         em.getTransaction().begin();
         usuario.setNome(nomeNovo);
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Nome alterado para: " + nomeNovo + "\n");
     }
 
-    public void editarTelefone(UsuariosEntity usuario, Scanner sc) {
-        System.out.println("Deseja alterar para qual número de telefone? (11 dígitos)");
-        String telefoneNovo = sc.nextLine();
-        if (telefoneNovo.length() > 11 || telefoneNovo.length() < 10) {
-            System.out.println("ERRO: O número deve ter entre 10 e 11 dígitos\n");
-            return;
+    public void editarTelefone(UsuariosEntity usuario, String telefoneNovo) {
+        if (telefoneNovo == null || telefoneNovo.trim().isEmpty()) {
+            throw new IllegalArgumentException("O telefone não pode ser vazio.");
+        }
+        // Verifica se contém apenas dígitos
+        if (!telefoneNovo.matches("\\d+")) {
+            throw new IllegalArgumentException("ERRO: O telefone deve conter apenas números.");
+        }
+        if (telefoneNovo.length() < 10 || telefoneNovo.length() > 11) {
+            throw new IllegalArgumentException("ERRO: O número deve ter entre 10 e 11 dígitos.");
         }
 
         em.getTransaction().begin();
         usuario.setTelefone(telefoneNovo);
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Telefone alterado para: " + telefoneNovo + "\n");
     }
 
-    public void editarSenha(UsuariosEntity usuario, Scanner sc) {
-        System.out.println("Deseja alterar para qual senha?");
-        String senhaNova = sc.nextLine();
-        if (BCrypt.checkpw(senhaNova, usuario.getSenha())) {
-            System.out.println("ERRO: A nova senha não pode ser igual à atual!\n");
-            return;
+    public void editarSenha(UsuariosEntity usuario, String senhaNova) {
+        if (senhaNova == null || senhaNova.trim().isEmpty()) {
+            throw new IllegalArgumentException("A senha não pode ser vazia.");
         }
 
-        String senhaHashed = BCrypt.hashpw(senhaNova, BCrypt.gensalt());
+        if (senhaNova.equals(usuario.getSenha())) {
+            throw new IllegalArgumentException("ERRO: A nova senha não pode ser igual à atual!");
+        }
+
 
         em.getTransaction().begin();
-        usuario.setSenha(senhaHashed);
+        usuario.setSenha(senhaNova);
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Senha alterada com sucesso.\n");
     }
 
     public void editarIsAdmin(UsuariosEntity usuario) {
         em.getTransaction().begin();
-        usuario.setAdmin(!usuario.isAdmin());
+        usuario.setAdmin(!usuario.isAdmin()); // Inverte o status de admin
         em.merge(usuario);
         em.getTransaction().commit();
-
-        System.out.println("Admin status alterado para: " + (usuario.isAdmin() ? "ADMIN" : "USUÁRIO COMUM") + "\n");
     }
+
+    public void editarIsActive(UsuariosEntity usuario) {
+        em.getTransaction().begin();
+        usuario.setActive(!usuario.isActive()); // Inverte o status de ativo
+        em.merge(usuario);
+        em.getTransaction().commit();
+    }
+
 
     public void excluirUsuario(UsuariosEntity usuario) {
         EntityTransaction transaction = em.getTransaction();
@@ -178,17 +221,14 @@ public class UsuarioService {
         try {
             transaction.begin();
 
-            // Exclui anotações vinculadas
             em.createQuery("DELETE FROM AnotacaoEntity a WHERE a.cliente.id = :id")
                     .setParameter("id", usuario.getId())
                     .executeUpdate();
 
-            // Exclui agendamentos vinculados
             em.createQuery("DELETE FROM AgendamentoEntity a WHERE a.cliente.id = :id")
                     .setParameter("id", usuario.getId())
                     .executeUpdate();
 
-            // Remove o usuário
             em.remove(usuario);
 
             transaction.commit();

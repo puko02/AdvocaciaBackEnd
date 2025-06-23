@@ -1,7 +1,7 @@
-package org.example.control.repositories;
+package org.example.model.repositories;
 
-import org.example.model.DisponibilidadeEntity;
-import org.example.model.AnotacaoEntity;
+import org.example.model.entities.DisponibilidadeEntity;
+import org.example.model.entities.AnotacaoEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

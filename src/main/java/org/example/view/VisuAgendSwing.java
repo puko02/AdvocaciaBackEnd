@@ -1,7 +1,7 @@
 package org.example.view;
 
-import org.example.control.repositories.AgendamentoRepository;
-import org.example.model.AgendamentoEntity;
+import org.example.model.repositories.AgendamentoRepository;
+import org.example.model.entities.AgendamentoEntity;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,22 +15,23 @@ public class VisuAgendSwing extends JFrame {
     private final AgendamentoRepository agendamentoRepo = new AgendamentoRepository();
 
     public VisuAgendSwing() {
-        setTitle("Gerenciamento de Agendamentos");
-        setSize(600, 400);
+        setTitle("Menu de Agendamentos");
+        setSize(500, 350);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
-        JLabel titulo = new JLabel("Menu de Agendamentos", SwingConstants.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 20));
+        JLabel titulo = new JLabel("📅 Gerenciador de Agendamentos", SwingConstants.CENTER);
+        titulo.setFont(new Font("Arial", Font.BOLD, 18));
+        titulo.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
 
-        JButton btnVerTodos = new JButton("Ver todos os agendamentos");
-        JButton btnAlterar = new JButton("Alterar agendamento");
-        JButton btnProximo = new JButton("Ver próximo agendamento");
-        JButton btnSair = new JButton("Sair");
+        JButton btnVerTodos = new JButton("📋 Ver todos");
+        JButton btnAlterar = new JButton("✏️ Alterar agendamento");
+        JButton btnProximo = new JButton("⏭️ Próximo agendamento");
+        JButton btnSair = new JButton("❌ Sair");
 
-        JPanel botoesPanel = new JPanel();
-        botoesPanel.setLayout(new GridLayout(4, 1, 10, 10));
+        JPanel botoesPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        botoesPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 20, 40));
         botoesPanel.add(btnVerTodos);
         botoesPanel.add(btnAlterar);
         botoesPanel.add(btnProximo);
@@ -39,19 +40,14 @@ public class VisuAgendSwing extends JFrame {
         add(titulo, BorderLayout.NORTH);
         add(botoesPanel, BorderLayout.CENTER);
 
-        // Ações dos botões
         btnVerTodos.addActionListener(e -> mostrarTodosAgendamentos());
         btnProximo.addActionListener(e -> mostrarProximoAgendamento());
         btnAlterar.addActionListener(e -> alterarAgendamento());
         btnSair.addActionListener(e -> dispose());
     }
 
-    // Método para abrir a tela
     public static void abrirTela() {
-        SwingUtilities.invokeLater(() -> {
-            VisuAgendSwing janela = new VisuAgendSwing();
-            janela.setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new VisuAgendSwing().setVisible(true));
     }
 
     private void mostrarTodosAgendamentos() {
@@ -80,8 +76,8 @@ public class VisuAgendSwing extends JFrame {
         JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        JFrame frame = new JFrame("Todos os Agendamentos");
-        frame.setSize(600, 400);
+        JFrame frame = new JFrame("📋 Lista de Agendamentos");
+        frame.setSize(600, 300);
         frame.add(scrollPane);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -103,32 +99,33 @@ public class VisuAgendSwing extends JFrame {
                 proximo.getDescricao()
         );
 
-        JOptionPane.showMessageDialog(this, mensagem, "Próximo Agendamento", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, mensagem, "⏭️ Próximo Agendamento", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void alterarAgendamento() {
         try {
-            String idStr = JOptionPane.showInputDialog(this, "Digite o ID do agendamento:");
+            String idStr = JOptionPane.showInputDialog(this, "Digite o ID:");
             if (idStr == null) return;
             Long id = Long.parseLong(idStr);
 
-            String dataStr = JOptionPane.showInputDialog(this, "Digite a nova data (dd/MM/yyyy):");
+            String dataStr = JOptionPane.showInputDialog(this, "Data (dd/MM/yyyy):");
             if (dataStr == null) return;
-            String horaStr = JOptionPane.showInputDialog(this, "Digite o novo horário (HH:mm):");
+            String horaStr = JOptionPane.showInputDialog(this, "Hora (HH:mm):");
             if (horaStr == null) return;
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-            LocalDateTime dataHora = LocalDateTime.parse(dataStr + " " + horaStr, formatter);
+            LocalDateTime dataHora = LocalDateTime.parse(
+                    dataStr + " " + horaStr,
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+            );
 
-            String status = JOptionPane.showInputDialog(this, "Digite o novo status:");
-            String descricao = JOptionPane.showInputDialog(this, "Digite a nova descrição:");
+            String status = JOptionPane.showInputDialog(this, "Novo status:");
+            String descricao = JOptionPane.showInputDialog(this, "Nova descrição:");
 
             agendamentoRepo.atualizarAgendamento(id, dataHora, status, descricao);
 
-            JOptionPane.showMessageDialog(this, "Agendamento atualizado com sucesso!");
-
+            JOptionPane.showMessageDialog(this, "✅ Agendamento atualizado!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao atualizar: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
         }
     }
 }
