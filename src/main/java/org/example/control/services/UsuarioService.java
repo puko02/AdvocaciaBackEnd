@@ -42,7 +42,6 @@ public class UsuarioService {
         em.merge(usuario);
         em.getTransaction().commit();
 
-        System.out.println("Token de confirmação gerado e salvo: ");
     }
 
     public void enviarTokenEmail(String emailDestino) {
