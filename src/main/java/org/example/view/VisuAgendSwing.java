@@ -69,7 +69,9 @@ public class VisuAgendSwing extends JFrame {
                     ag.getId(),
                     ag.getDataHora(),
                     ag.getStatus(),
-                    ag.getDescricao()
+                    (ag.getDescricao() == null || ag.getDescricao().isEmpty())
+                            ? "Nenhuma descrição"
+                            : ag.getDescricao()
             });
         }
 
@@ -96,7 +98,9 @@ public class VisuAgendSwing extends JFrame {
                 proximo.getId(),
                 proximo.getDataHora(),
                 proximo.getStatus(),
-                proximo.getDescricao()
+                (proximo.getDescricao() == null || proximo.getDescricao().isEmpty())
+                        ? "Nenhuma descrição"
+                        : proximo.getDescricao()
         );
 
         JOptionPane.showMessageDialog(this, mensagem, "⏭️ Próximo Agendamento", JOptionPane.INFORMATION_MESSAGE);
@@ -121,7 +125,7 @@ public class VisuAgendSwing extends JFrame {
             String status = JOptionPane.showInputDialog(this, "Novo status:");
             String descricao = JOptionPane.showInputDialog(this, "Nova descrição:");
 
-            agendamentoRepo.atualizarAgendamento(id, dataHora, status, descricao);
+            agendamentoRepo.atualizarAgendamento(id, dataHora, descricao, status);
 
             JOptionPane.showMessageDialog(this, "✅ Agendamento atualizado!");
         } catch (Exception e) {
