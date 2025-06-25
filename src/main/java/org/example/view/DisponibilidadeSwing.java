@@ -85,6 +85,7 @@ public class DisponibilidadeSwing extends JFrame {
         formPanel.add(checkBloqueado);
         formPanel.add(new JLabel());
         formPanel.add(btnAtualizar);
+        formPanel.add(btnAtualizar);
 
         labelStatus = new JLabel(" ");
         labelStatus.setHorizontalAlignment(SwingConstants.CENTER);
@@ -94,7 +95,7 @@ public class DisponibilidadeSwing extends JFrame {
         bottomPanel.add(formPanel, BorderLayout.CENTER);
         bottomPanel.add(labelStatus, BorderLayout.SOUTH);
         add(bottomPanel, BorderLayout.SOUTH);
-
+        
         btnBuscar.addActionListener(e -> buscarDisponibilidade());
         btnAtualizar.addActionListener(e -> atualizarDisponibilidade());
     }
